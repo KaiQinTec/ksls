@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Module file for VBO Hide module.
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function vbo_hide_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'vbo_hide') . '/views',
+  );
+}
+
+/**
+ * Implements hook_views_bulk_operations_form_alter().
+ */
+function vbo_hide_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
+  $current_display = $vbo->view->current_display;
+  $view = views_get_view($vbo->view->name);
+  $vbo_setting = isset($view->display[$current_display]->display_options['vbo_hide']) ? $view->display[$current_display]->display_options['vbo_hide'] : 0;
+  if (empty($vbo->view->result) && $vbo_setting == 1) {
+    unset($form['select']);
+  }
+}

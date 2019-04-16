@@ -1,0 +1,24 @@
+# Chinese, Simplified translation of Persistent Login (7.x-1.0)
+# Copyright (c) 2017 by the Chinese, Simplified translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Persistent Login (7.x-1.0)\n"
+"POT-Creation-Date: 2017-03-03 18:43+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Chinese, Simplified\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgid "Pages"
+msgstr "页面"
+msgid "security"
+msgstr "安全性"
+msgid "Security"
+msgstr "安全"
+msgid "Remember me"
+msgstr ""
+"记住我的帐号密码<br>\r\n"
+"使用公共电脑时不建议勾选"

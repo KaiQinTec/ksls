@@ -1,0 +1,251 @@
+/*body.page-admin-content ul.action-links {
+    display: none !important;
+}*/
+
+.page-content .form-item-workbench-access,
+.page-node-add .vertical-tabs{
+    display: none;
+}
+/*.page-content .vertical-tabs {
+    width: 100%;
+    float: left;
+}*/
+
+.node-form .form-control {
+    width: auto !important;
+}
+
+.form-type-textfield {
+    display: inline-block;
+}
+
+.required-fields {
+    width: 100%;
+    float: left;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+}
+.required-fields h3 {
+    text-align: center;
+}
+
+/*.form-item label {
+    min-width: 200px;
+}*/
+
+.form-actions {
+    width: 100%;
+    float: left;
+}
+
+#edit-created-wrapper .views-operator {
+    display: none;
+}
+
+.form-item-created-min,
+.form-item-created-max {
+    float: left;
+}
+
+.form-item label,
+fieldset legend,
+table th,
+.views-exposed-form label {
+    font-size: 12px !important;
+}
+
+.date-padding label,
+.date-padding .description {
+    display: none;
+}
+
+.image-widget-data input {
+    float: left;
+}
+
+#specAuthorList {
+    margin-top: 20px;
+}
+
+#specAuthorList td,
+#specAddressList td {
+    text-align: left;
+}
+
+
+.views-field {
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.form-item-log {
+    border: 1px solid #ccc;
+    padding: 20px !important;
+}
+.form-item-log textarea {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.view-footer {
+    margin-bottom: 20px;
+}
+.form-item-created-max label {
+    float: left;
+}
+
+.add-api-list,
+.add-address-api-list {
+    display: none;
+}
+.need-input-star {
+    line-height: 34px;
+    color: red;
+    font-size: 14px;
+}
+.col-sm-9.input-group,
+.col-sm-1 {
+    float: left !important;
+}
+
+.form-wrapper {
+    margin-bottom: 0 !important;
+}
+
+body.page-content-content-list fieldset {
+    border: 1px solid #ccc;
+    padding: 12px;
+}
+body.page-content-content-list legend {
+    width: auto;
+}
+body.page-content-content-list legend label {
+    font-size: 20px;
+    margin-top: 0;
+}
+body.page-content-content-list .required-fields {
+    border: 0;
+    padding: 0;
+    margin: 5px 0;
+}
+body.page-content-content-list .required-fields h3 {
+    text-align: left;
+}
+body.page-content-content-list .required-fields span {
+    font-size: 18px;
+}
+
+.vbo-views-form .form-item {
+    float: left;
+    margin-right: 1em !important;
+    margin-top: 0;
+}
+.vbo-views-form .custom-fieldset-label {
+    display: none;
+}
+
+.tabledrag-toggle-weight-wrapper {
+    display: none;
+}
+
+body.page-node-edit .clearfix .field-add-more-submit,
+body.page-node-add .clearfix .field-add-more-submit {
+    display: none;
+}
+.form-checkboxes{
+    width:auto;
+    float: left;
+    display:flex;
+    justify-content:center;
+    flex-direction: row;
+    align-items: center;
+    clear:both;
+    border:1px solid #B0C4DE;
+
+}
+.lblleft{
+    float: left;
+    clear:both;
+}
+
+.form-item.form-type-checkbox {
+    display: inline-block;
+    margin-right: 10px !important;
+}
+/* .custom-fieldset-label {
+    display: none;
+} */
+.vertical-tabs-panes.vertical-tabs-processed.form-item label
+{
+    display: none;
+}
+.form-item.form-item.form-type-checkbox.form-item-promote {
+    display: none;
+}
+.form-item.form-item.form-type-checkbox.form-item-sticky {
+    display: none;
+}
+#edit-field-data-source
+{
+    display: none;
+}
+#edit-field-selfurl{
+    display: none;
+}
+.file-widget.form-managed-file.clearfix input {
+    float: left;
+}
+.field-multiple-table.sticky-enabled.tabledrag-processed.tableheader-processed.sticky-table tr.even, tr.odd
+{
+    border-width: 0px;
+}
+.field-multiple-table.sticky-enabled.tabledrag-processed.tableheader-processed.sticky-table tbody
+{
+    border:none;
+}
+.field-multiple-table {
+    border: none;
+}
+.field-multiple-table thead {
+    display: none;
+}
+.field-multiple-table .field-multiple-drag {
+    width: 90px !important;
+    font-weight: 300;
+    font-size: 12px;
+}
+.field-multiple-table .field-multiple-drag span {
+   display: none;
+}
+.field-multiple-table td,th {
+    padding: 0;
+}
+
+.field-multiple-table .custom-fieldset-label {
+    display: none;
+}
+
+body.page-node-add .form-item {
+    margin-bottom: 0.5em !important;
+    margin-top: 0.5em !important;
+    padding: 0 !important;
+}
+#zhengji-node-form .vertical-tabs-panes .vertical-tabs-processed{
+    display: none;
+}
+.login-container .center{
+    margin-left: -50px;
+}
+.navbar-header .pull-left{
+    float: left;
+}
+.navbar-header .pull-right{
+    float:right;
+}
+#edit-message{
+    display: none;
+}
+#edit-field-bf-dimensions
+{
+    display: none;
+}

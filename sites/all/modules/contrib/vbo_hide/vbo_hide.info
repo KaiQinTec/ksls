@@ -1,0 +1,15 @@
+name = VBO Hide
+description = "Hide the view bulk operation form when no data in view"
+package = Views
+core = 7.x
+dependencies[] = views
+dependencies[] = views_bulk_operations
+files[] = views/vbo_hide.views.inc
+files[] = views/vbo_hide_plugin_display_extender.inc
+
+; Information added by Drupal.org packaging script on 2016-08-27
+version = "7.x-1.3"
+core = "7.x"
+project = "vbo_hide"
+datestamp = "1472287440"
+

@@ -1,0 +1,23 @@
+name = Book Library
+description = 图书馆主题。
+core = 7.x
+scripts[] = assets/js/bootstrap.min.js
+scripts[] = assets/js/ace-extra.min.js
+scripts[] = assets/layer/layer.js
+scripts[] = js/sweetalert2.all.js
+scripts[] = js/jquery.cookie.js
+
+stylesheets[all][] = assets/css/bootstrap.min.css
+stylesheets[all][] = assets/css/font-awesome.min.css
+stylesheets[all][] = assets/css/ace.min.css
+stylesheets[all][] = assets/css/ace-rtl.min.css
+stylesheets[all][] = assets/css/ace-skins.min.css
+stylesheets[all][] = css/style.css
+
+regions[content] = Content
+regions[leftbar] = LeftBar
+
+version = "7.x-1"
+core = "7.x"
+project = "BookLibrary"
+

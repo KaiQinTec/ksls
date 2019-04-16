@@ -1,0 +1,7 @@
+name = Custom Admin
+description = "自定义部分后台管理界面。"
+package = Custom
+core = 7.x
+
+version = "7.x-1.0"
+
