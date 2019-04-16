@@ -152,7 +152,7 @@
                             <i class="icon-home"></i><span class="menu-text"> 系统首页 </span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-check"></i><span class="menu-text"> 征集管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
@@ -170,7 +170,7 @@
                                 </li>
                             <?php endif;?>
                         </ul>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-edit"></i><span class="menu-text"> 著录管理 </span><b class="arrow icon-angle-down"></b>
