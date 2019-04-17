@@ -55,7 +55,7 @@ function template_preprocess_custom_front_page(&$vars) {
     $query->leftJoin('workbench_moderation_node_history', 'state', 'node.nid = state.nid');
     $query->condition('state.is_current', 1);
     $query->condition('state.state', 'needs_review');
-    $query->where("FROM_UNIXTIME(node.created, '%Y-%m') = :date", array('date' => date('Y-m', REQUEST_TIME)));
+    $query->where("FROM_UNIXTIME(state.stamp, '%Y-%m') = :date", array('date' => date('Y-m', REQUEST_TIME)));
     $result = $query->execute()->fetchAll();
     $counts = array();
     foreach($result as $v) {
