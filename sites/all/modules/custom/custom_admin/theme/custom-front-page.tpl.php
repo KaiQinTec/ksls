@@ -23,7 +23,6 @@
                 </div>
                 <div class="value">
                     <h1><?php echo array_sum(array_column($current_month_shcount_list, 'count')); ?></h1>
-                    <!-- <p>当月手稿征集总数</p> -->
                     <p>当月审核总数</p>
                 </div>
             </section>
@@ -31,9 +30,9 @@
     </div>
     <div class="Order_Statistics">
         <div class="title_name"><?php if (user_has_role(4, $user)) {
-    echo '审核未通过手稿';
+    echo '审核未通过';
 } else {
-    echo '待审核手稿信息';
+    echo '待审核信息';
 }?></div>
         <table class="table table-bordered">
             <tbody>
@@ -72,7 +71,7 @@
             </table>
         </div>
         <div class="Order_Statistics">
-            <div class="title_name">当月审校手稿信息</div>
+            <div class="title_name">当月审校统计信息</div>
             <table class="table table-bordered">
                 <tbody>
                 <?php foreach ($published as $type_key => $type) :?>
