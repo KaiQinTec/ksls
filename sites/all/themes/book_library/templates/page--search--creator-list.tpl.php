@@ -229,18 +229,8 @@
                                 </a>
                             </li>
                             <li class="home">
-                                <a href="/insert/count/zhengji" name="payment_method.html" title="征集著录统计" class="iframeurl">
-                                    <i class="icon-double-angle-right"></i>征集著录统计
-                                </a>
-                            </li>
-                            <li class="home">
                                 <a href="/insert/count/shenhe" name="payment_method.html" title="审核统计" class="iframeurl">
                                     <i class="icon-double-angle-right"></i>审核统计
-                                </a>
-                            </li>
-                            <li class="home">
-                                <a href="/insert/count/juanxian" name="Payment_Configure.html" title="捐献统计" class="iframeurl">
-                                    <i class="icon-double-angle-right"></i>捐献统计
                                 </a>
                             </li>
                             <li class="home">
