@@ -15,24 +15,14 @@
                     </div>
             </section>
         </div>
-        <!-- <div class="col-lg-3 col-sm-6">
-            <section class="panel">
-                <div class="symbol red">
-                    <i class="icon-user"></i>
-                </div>
-                <div class="value">
-                    <h1><?php echo $insert_user_count; ?></h1>
-                    <p>捐献人总数</p>
-                </div>
-            </section>
-        </div> -->
+      
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
                 <div class="symbol yellow">
                     <i class="icon-copy"></i>
                 </div>
                 <div class="value">
-                    <h1><?php echo $current_month_zhengji; ?></h1>
+                    <h1><?php echo array_sum(array_column($current_month_shcount_list, 'count')); ?></h1>
                     <!-- <p>当月手稿征集总数</p> -->
                     <p>当月审核总数</p>
                 </div>

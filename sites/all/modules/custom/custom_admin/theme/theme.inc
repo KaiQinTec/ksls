@@ -47,12 +47,36 @@ function template_preprocess_custom_front_page(&$vars) {
     }, $node_types);
     $vars['current_month_count_list'] = $current_month_count_list;
 
+
+    //当月审核
     $query = db_select('node', 'node')->fields('node', array('nid', 'type'));
     $query->rightJoin('node_type', 'node_type', 'node.type = node_type.type');
     $query->addExpression('COUNT(node.nid)', 'node_count');
     $query->leftJoin('workbench_moderation_node_history', 'state', 'node.nid = state.nid');
     $query->condition('state.is_current', 1);
+    $query->condition('state.state', 'needs_review');
+    $query->where("FROM_UNIXTIME(node.created, '%Y-%m') = :date", array('date' => date('Y-m', REQUEST_TIME)));
+    $result = $query->execute()->fetchAll();
+    $counts = array();
+    foreach($result as $v) {
+        $counts[$v->type] = $v->node_count;
+    }
+    $current_month_shcount_list = array();
+    $current_month_shcount_list = array_map(function($type) use($counts) {
+        return array(
+            'count' => isset($counts[$type->type]) ? $counts[$type->type] : 0,
+            'name' => $type->name
+        );
+    }, $node_types);
+    $vars['current_month_shcount_list'] = $current_month_shcount_list;
 
+
+    $query = db_select('node', 'node')->fields('node', array('nid', 'type'));
+    $query->rightJoin('node_type', 'node_type', 'node.type = node_type.type');
+    $query->addExpression('COUNT(node.nid)', 'node_count');
+    $query->leftJoin('workbench_moderation_node_history', 'state', 'node.nid = state.nid');
+    $query->condition('state.is_current', 1);
+    
     // 著录人员登录时，显示审核未通过的内容
     if(user_has_role(4, $user)) {
         $query->condition('state.state', 'no_published');
