@@ -6,6 +6,17 @@
     <div class="state-overview clearfix">
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
+                <div class="symbol yellow">
+                    <i class="icon-copy"></i>
+                </div>
+                <div class="value">
+                    <h1><?php echo array_sum(array_column($needs_review, 'count')); ?></h1>
+                    <p>待审核总数</p>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <section class="panel">
                     <div class="symbol terques">
                         <i class="icon-book"></i>
                     </div>
@@ -15,14 +26,13 @@
                     </div>
             </section>
         </div>
-      
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <div class="symbol yellow">
-                    <i class="icon-copy"></i>
+                <div class="symbol green">
+                    <i class="icon-check"></i>
                 </div>
                 <div class="value">
-                    <h1><?php echo array_sum(array_column($current_month_shcount_list, 'count')); ?></h1>
+                    <h1><?php echo array_sum(array_column($published, 'count')); ?></h1>
                     <p>当月审核总数</p>
                 </div>
             </section>
@@ -71,7 +81,7 @@
             </table>
         </div>
         <div class="Order_Statistics">
-            <div class="title_name">当月审校统计信息</div>
+            <div class="title_name">当月审核统计信息</div>
             <table class="table table-bordered">
                 <tbody>
                 <?php foreach ($published as $type_key => $type) :?>
