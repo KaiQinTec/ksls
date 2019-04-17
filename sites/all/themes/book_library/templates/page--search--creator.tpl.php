@@ -131,12 +131,15 @@
                     <a href="<?php echo url('/search/gaoji'); ?>" title="高级检索" class="btn btn-warning">
                         <i class="icon-search"></i>
                     </a>
-                    <!-- <a href="<?php echo url('user-list/donation'); ?>" title="捐献人管理" class="btn btn-success">
+                    <a href="<?php echo url('/insert/count'); ?>" title="著录统计" class="btn btn-success">
                         <i class="icon-file"></i>
                     </a>
-                    <a href="<?php echo url('user-list/creator'); ?>" title="责任者管理" class="btn btn-warning">
-                        <i class="icon-group"></i>
-                    </a> -->
+                    <a href="<?php echo url('/insert/count/shenhe'); ?>" title="审核统计" class="btn btn-warning">
+                        <i class="icon-check"></i>
+                    </a>
+                    <a href="<?php echo url('/analysis/all'); ?>" title="可视化统计" class="btn btn-success">
+                        <i class="icon-eye-open"></i>
+                    </a>
                 </div>
 
                 <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
@@ -155,13 +158,13 @@
                     </li>
                     <li>
                         <a href="#" class="dropdown-toggle">
-                            <i class="icon-edit"></i><span class="menu-text"> 著录管理 </span><b class="arrow icon-check"></b>
+                            <i class="icon-edit"></i><span class="menu-text"> 著录管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
                             <?php //foreach($content_types as $type => $name) :?>
                             <?php //$type = str_replace('_', '-', $type);?>
                             <li class="home">
-                                <a href="<?php echo url('content/zhengji'); ?>">
+                                <a href="<?php echo url('admin/content'); ?>">
                                     <i class="icon-double-angle-right"></i>内容管理
                                 </a>
                             </li>
@@ -178,8 +181,12 @@
                                 </a>
                             </li>
                             <?php //endforeach;?>
-
                         </ul>
+                    </li>
+                    <li>
+                        <a href="<?php echo url('search/creator'); ?>" class="dropdown-toggle">
+                            <i class="icon-edit"></i><span class="menu-text"> 音视频展示 </span>
+                        </a>
                     </li>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-bar-chart"></i><span class="menu-text"> 统计分析 </span><b

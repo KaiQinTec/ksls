@@ -183,6 +183,11 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="<?php echo url('search/creator'); ?>" class="dropdown-toggle">
+                            <i class="icon-edit"></i><span class="menu-text"> 音视频展示 </span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-bar-chart"></i><span class="menu-text"> 统计分析 </span><b
                                 class="arrow icon-angle-down"></b></a>
                         <ul class="submenu">
