@@ -11,7 +11,7 @@
                     </div>
                     <div class="value">
                         <h1><?php echo array_sum(array_column($current_month_count_list, 'count')); ?></h1>
-                        <p>当月手稿著录总数</p>
+                        <p>当月著录总数</p>
                     </div>
             </section>
         </div>
@@ -25,7 +25,7 @@
                     <p>捐献人总数</p>
                 </div>
             </section>
-        </div>
+        </div> -->
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
                 <div class="symbol yellow">
@@ -33,10 +33,11 @@
                 </div>
                 <div class="value">
                     <h1><?php echo $current_month_zhengji; ?></h1>
-                    <p>当月手稿征集总数</p>
+                    <!-- <p>当月手稿征集总数</p> -->
+                    <p>当月审核总数</p>
                 </div>
             </section>
-        </div> -->
+        </div>
     </div>
     <div class="Order_Statistics">
         <div class="title_name"><?php if (user_has_role(4, $user)) {

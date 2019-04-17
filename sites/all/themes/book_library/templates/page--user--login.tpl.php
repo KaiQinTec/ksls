@@ -111,7 +111,7 @@
 							</div><!-- /position-relative -->
 						</div>
                         </div>
-                        <div class="loginbm">版权所有  2018  <a href="">上海市历史博物馆</a> </div><strong></strong>
+                        <div class="loginbm">版权所有  ©2019  <a href="">上海市历史博物馆</a> </div><strong></strong>
 
 <style type="text/css">
 .widget-main {
