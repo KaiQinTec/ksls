@@ -164,7 +164,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
                 <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                    
+
                     <a href="<?php echo url('/search/gaoji'); ?>" title="高级检索" class="btn btn-warning">
                         <i class="icon-search"></i>
                     </a>
@@ -202,7 +202,7 @@
                                     <i class="icon-double-angle-right"></i>内容管理
                                 </a>
                             </li>
-                            <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)) : ?>
+                            <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)): ?>
                                 <li class="home">
                                     <a href="<?php echo url('content/content-list'); ?>">
                                         <i class="icon-double-angle-right"></i>审核
@@ -214,9 +214,9 @@
                                     <i class="icon-double-angle-right"></i>著录
                                 </a>
                             </li>
-                            
+
                             <?php //endforeach;?>
-                           
+
                         </ul>
                     </li>
                     <li>
@@ -250,13 +250,13 @@
                             </li>
                         </ul>
                     </li>
-                    <?php if (user_access('administer content types', $user)) : ?>
+                    <?php if (user_access('administer content types', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-list "></i><span class="menu-text"> 结构管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
-                            <?php foreach ($structure_menu as $menu) : ?>
+                            <?php foreach ($structure_menu as $menu): ?>
                             <li class="home">
                                 <a href="<?php echo url($menu['link_path']); ?>" title="<?php echo $menu['link_title']; ?>">
                                     <i class="icon-double-angle-right"></i><?php echo $menu['link_title']; ?>
@@ -266,7 +266,7 @@
                         </ul>
                     </li>
                     <?php endif; ?>
-                    <?php if (user_access('administer users', $user)) : ?>
+                    <?php if (user_access('administer users', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-user"></i><span
                                 class="menu-text"> 用户权限管理 </span><b class="arrow icon-angle-down"></b></a>
@@ -287,12 +287,12 @@
                                     <i class="icon-double-angle-right"></i>权限管理
                                 </a>
                             </li>
-                           
+
 
                         </ul>
                     </li>
                     <?php endif; ?>
-                    <?php if (user_access('administer users', $user)) : ?>
+                    <?php if (user_access('administer users', $user)): ?>
                     <li>
                             <a href="/admin" >
                                 <i class="icon-cog"></i>
@@ -339,7 +339,7 @@
                 <?php echo render($page['content']); ?>
             </div>
             <div class="left-bar col-md-3">
-                <?php if (isset($_GET['field_dc_creator'])) : ?>
+                <?php if (isset($_GET['field_dc_creator'])): ?>
                 <div id="currrent-search-key" class="block block-facetapi contextual-links-region">
                     <h2>当前搜索</h2>
                     <div class="content">
@@ -348,13 +348,13 @@
                                 <li class="leaf last"><?php echo $_GET['field_dc_creator']; ?></li>
                             </ul>
                             <?php echo $juanzeng_date; ?>
-                        </div>  
+                        </div>
                     </div>
                 </div>
                 <?php endif; ?>
                 <?php echo render($page['leftbar']); ?>
             </div>
-            
+
             <!--iframe id="iframe" style="border:0; width:100%; background-color:#FFF;" name="iframe" frameborder="0"
                     src="home.html"></iframe-->
 

@@ -167,7 +167,7 @@
                                     <i class="icon-double-angle-right"></i>内容管理
                                 </a>
                             </li>
-                            <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)) : ?>
+                            <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)): ?>
                                 <li class="home">
                                     <a href="<?php echo url('content/content-list'); ?>">
                                         <i class="icon-double-angle-right"></i>审核
@@ -203,13 +203,13 @@
                             </li>
                         </ul>
                     </li>
-                    <?php if (user_access('administer content types', $user)) : ?>
+                    <?php if (user_access('administer content types', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-list "></i><span class="menu-text"> 结构管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
-                            <?php foreach ($structure_menu as $menu) : ?>
+                            <?php foreach ($structure_menu as $menu): ?>
                             <li class="home">
                                 <a href="<?php echo url($menu['link_path']); ?>" title="<?php echo $menu['link_title']; ?>">
                                     <i class="icon-double-angle-right"></i><?php echo $menu['link_title']; ?>
@@ -219,7 +219,7 @@
                         </ul>
                     </li>
                     <?php endif; ?>
-                    <?php if (user_access('administer users', $user)) : ?>
+                    <?php if (user_access('administer users', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-user"></i><span
                                 class="menu-text"> 用户权限管理 </span><b class="arrow icon-angle-down"></b></a>
@@ -239,12 +239,12 @@
                                     <i class="icon-double-angle-right"></i>权限管理
                                 </a>
                             </li>
-                           
+
 
                         </ul>
                     </li>
                     <?php endif; ?>
-                    <?php if (user_access('administer users', $user)) : ?>
+                    <?php if (user_access('administer users', $user)): ?>
                     <li>
                             <a href="/admin" >
                                 <i class="icon-cog"></i>
@@ -289,13 +289,13 @@
             </div>
 
             <div class="row">
-                
+
                 <div class="<?php if ($current_path == 'search/gaoji') {
     echo 'col-md-10';
 } else {
     echo 'page-content';
-} ?>">
-                    
+}?>">
+
                     <?php echo $messages; ?>
                     <?php echo render($page['content']); ?>
                 </div>
@@ -305,7 +305,7 @@
                     </div>
                 <?php endif; ?>
             </div>
-            
+
             <!--iframe id="iframe" style="border:0; width:100%; background-color:#FFF;" name="iframe" frameborder="0"
                     src="home.html"></iframe-->
 
@@ -345,8 +345,8 @@
             </div>
             <div class="modal-body ">
                 <select name="select-type" id="select-type" size="<?php echo count($content_types); ?>">
-                    <?php foreach ($content_types as $type => $type_title) :?>
-                    <?php if ($type_title != '征集信息') : ?>
+                    <?php foreach ($content_types as $type => $type_title): ?>
+                    <?php if ($type_title != '征集信息'): ?>
                         <option value="<?php echo $type; ?>"><?php echo $type_title; ?></option>
                     <?php endif; ?>
                     <?php endforeach; ?>

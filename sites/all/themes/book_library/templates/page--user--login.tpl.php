@@ -75,18 +75,18 @@
 <div class="msg-container">
     <?php //print $messages;?>
 </div>
-<div class="logintop">    
-    <span>欢迎访问<?php print $site_name;?></span>
+<div class="logintop">
+    <span>欢迎访问<?php echo $site_name; ?></span>
     <ul>
     <li><a href="#">返回首页</a></li>
     <li><a href="#">帮助</a></li>
     <li><a href="#">关于</a></li>
-    </ul>    
+    </ul>
     </div>
     <div class="loginbody">
 <div class="login-container">
 	<div class="center">
-	     <img src="<?php print $logo;?>" />
+	     <img src="<?php echo $logo; ?>" />
 							</div>
 
 							<div class="space-6"></div>
@@ -100,8 +100,8 @@
 												管理员登录
 											</h4>
 
-                                            <div class="login_icon"><img src="/<?php print $path;?>/images/login.png" /></div>
-                                            <?php print $login_form;?>
+                                            <div class="login_icon"><img src="/<?php echo $path; ?>/images/login.png" /></div>
+                                            <?php echo $login_form; ?>
 										</div><!-- /widget-main -->
 
 										<div class="toolbar clearfix">
@@ -138,25 +138,25 @@ $('#login_btn').on('click', function(){
      $("input[type$='text'],input[type$='password']").each(function(n){
           if($(this).val()=="")
           {
-               
+
 			   layer.alert(str+=""+$(this).attr("name")+"不能为空！\r\n",{
-                title: '提示框',				
-				icon:0,								
-          }); 
+                title: '提示框',
+				icon:0,
+          });
 		    num++;
-            return false;            
-          } 
+            return false;
+          }
 		 });
-		  if(num>0){  return false;}	 	
+		  if(num>0){  return false;}
           else{
 			  layer.alert('登录成功！',{
-               title: '提示框',				
-			   icon:1,		
+               title: '提示框',
+			   icon:1,
 			  });
 	          location.href="index.html";
-			   layer.close(index);	
-		  }		  		     						
-		
+			   layer.close(index);
+		  }
+
 	});
 
     $('label[for="edit-name--2"]').html('').addClass('user_icon');
@@ -176,7 +176,7 @@ $('#login_btn').on('click', function(){
             $parent.attr('class','frame_style').addClass(' form_error');
         }
     });
-	$("input[type='text'],input[type='password']").focus(function(){		
+	$("input[type='text'],input[type='password']").focus(function(){
 		var $el = $(this);
         var $parent = $el.parent();
         $parent.attr('class','frame_style').removeClass(' form_errors');
