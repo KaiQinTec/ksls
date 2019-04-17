@@ -251,6 +251,7 @@
                         
                         </ul>
                     </li>
+                    <?php endif; ?>
                     <?php if (user_access('administer users', $user)) : ?>
                     <li>
                             <a href="/admin" >

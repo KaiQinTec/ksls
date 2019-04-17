@@ -413,7 +413,7 @@
                 $(this).addClass('active');
             });
 
-//时间设置
+        //时间设置
             function currentTime() {
                 var d = new Date(), str = '';
                 str += d.getFullYear() + '年';
@@ -430,5 +430,4 @@
             }, 1000);
 
         });
-
     </script>
