@@ -130,7 +130,7 @@
         <div class="navbar-header pull-left">
             <a href="#" class="navbar-brand">
                 <small>
-                    <img src="/<?php print $path;?>/images/logo01.png" width="470px">
+                    <img src="/<?php echo $path; ?>/images/logo01.png" width="470px">
                 </small>
             </a><!-- /.brand -->
         </div><!-- /.navbar-header -->
@@ -141,7 +141,7 @@
             <ul class="nav ace-nav">
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <span class="time"><em id="time"></em></span><span class="user-info"><small>欢迎光临,</small><?php print $user->name;?></span>
+                        <span class="time"><em id="time"></em></span><span class="user-info"><small>欢迎光临,</small><?php echo $user->name; ?></span>
                         <i class="icon-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
@@ -165,15 +165,15 @@
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
                 <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
                     
-                    <a href="<?php print url('/search/gaoji');?>" title="高级检索" class="btn btn-warning">
+                    <a href="<?php echo url('/search/gaoji'); ?>" title="高级检索" class="btn btn-warning">
                         <i class="icon-search"></i>
                     </a>
-                    <a href="<?php print url('user-list/donation');?>" title="捐献人管理" class="btn btn-success">
+                    <!-- <a href="<?php echo url('user-list/donation'); ?>" title="捐献人管理" class="btn btn-success">
                         <i class="icon-file"></i>
                     </a>
-                    <a href="<?php print url('user-list/creator');?>" title="责任者管理" class="btn btn-warning">
+                    <a href="<?php echo url('user-list/creator'); ?>" title="责任者管理" class="btn btn-warning">
                         <i class="icon-group"></i>
-                    </a>
+                    </a> -->
                 </div>
 
                 <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
@@ -186,48 +186,29 @@
             <div id="menu_style" class="menu_style">
                 <ul class="nav nav-list" id="nav_list">
                     <li class="home">
-                        <a href="<?php print url('front');?>" title="">
+                        <a href="<?php echo url('front'); ?>" title="">
                             <i class="icon-home"></i><span class="menu-text"> 系统首页 </span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-check"></i><span class="menu-text"> 征集管理 </span><b class="arrow icon-angle-down"></b>
-                        </a>
-                        <ul class="submenu">
-                            <li class="home">
-                                <a href="<?php print url('content/zhengji');?>">
-                                    <i class="icon-double-angle-right"></i>查询
-                                </a>
-                            </li>
-                            <?php if(user_has_role(3, $user) || user_has_role(5, $user)|| user_has_role(6, $user)|| user_has_role(7, $user)) : ?>
-                                <li class="home">
-                                    <a href="<?php print url('node/add/zhengji');?>">
-                                        <i class="icon-double-angle-right"></i>新增
-                                    </a>
-                                </li>
-                            <?php endif;?>
-                        </ul>
                     </li>
                     <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-edit"></i><span class="menu-text"> 著录管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
-                            <?php //foreach($content_types as $type => $name) : ?>
+                            <?php //foreach($content_types as $type => $name) :?>
                             <?php //$type = str_replace('_', '-', $type);?>
                             <li class="home">
-                                <a href="<?php print url('admin/content');?>">
+                                <a href="<?php echo url('admin/content'); ?>">
                                     <i class="icon-double-angle-right"></i>内容管理
                                 </a>
                             </li>
-                            <?php if(user_has_role(3, $user) || user_has_role(5, $user)|| user_has_role(7, $user)) : ?>
+                            <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)) : ?>
                                 <li class="home">
-                                    <a href="<?php print url('content/content-list');?>">
+                                    <a href="<?php echo url('content/content-list'); ?>">
                                         <i class="icon-double-angle-right"></i>审核
                                     </a>
                                 </li>
-                            <?php endif;?>
+                            <?php endif; ?>
                             <li class="home">
                                 <a href="javascript:void(0);" title="" id="add-new-node">
                                     <i class="icon-double-angle-right"></i>著录
@@ -238,43 +219,6 @@
                            
                         </ul>
                     </li>
-                   
-                    <?php if(user_has_role(3, $user) || user_has_role(5, $user)|| user_has_role(7, $user)) : ?>
-                    <!-- <li>
-                        <a href="/search/gaoji">
-                            <i class="icon-search"></i>
-                            <span class="menu-text"> 高级检索 </span>
-                        </a>
-                    </li> -->
-                    <li>
-                        <a href="/user-list/donation" >
-                            <i class="icon-file"></i>
-                            <span class="menu-text"> 捐献人管理 </span>
-                            <!-- <b class="arrow icon-angle-down"></b> -->
-                        </a>
-                        <!-- <ul class="submenu">
-                            <li class="home">
-                                <a href="/user-list/donation" name="transaction.html" title="分面检索" class="iframeurl">
-                                    <i class="icon-double-angle-right"></i>捐献人管理
-                                </a>
-                            </li>
-                        </ul> -->
-                    </li>
-                    <li>
-                        <a href="/user-list/creator">
-                            <i class="icon-group"></i>
-                            <span class="menu-text"> 责任者管理 </span>
-                            <!-- <b class="arrow icon-angle-down"></b> -->
-                        </a>
-                        <!-- <ul class="submenu">
-                            <li class="home">
-                                <a href="/user-list/creator" name="transaction.html" title="分面检索" class="iframeurl">
-                                    <i class="icon-double-angle-right"></i>责任者管理
-                                </a>
-                            </li>
-                        </ul> -->
-                    </li>
-                    <?php endif;?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-bar-chart"></i><span class="menu-text"> 统计分析 </span><b
                                 class="arrow icon-angle-down"></b></a>
@@ -306,23 +250,23 @@
                             </li>
                         </ul>
                     </li>
-                    <?php if(user_access('administer content types', $user)) : ?>
+                    <?php if (user_access('administer content types', $user)) : ?>
                     <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-list "></i><span class="menu-text"> 结构管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
-                            <?php foreach($structure_menu as $menu) : ?>
+                            <?php foreach ($structure_menu as $menu) : ?>
                             <li class="home">
-                                <a href="<?php print url($menu['link_path']);?>" title="<?php print $menu['link_title'];?>">
-                                    <i class="icon-double-angle-right"></i><?php print $menu['link_title'];?>
+                                <a href="<?php echo url($menu['link_path']); ?>" title="<?php echo $menu['link_title']; ?>">
+                                    <i class="icon-double-angle-right"></i><?php echo $menu['link_title']; ?>
                                 </a>
                             </li>
-                            <?php endforeach;?>
+                            <?php endforeach; ?>
                         </ul>
                     </li>
-                    <?php endif;?>
-                    <?php if(user_access('administer users', $user)) : ?>
+                    <?php endif; ?>
+                    <?php if (user_access('administer users', $user)) : ?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-user"></i><span
                                 class="menu-text"> 用户权限管理 </span><b class="arrow icon-angle-down"></b></a>
@@ -347,36 +291,14 @@
 
                         </ul>
                     </li>
-                    <?php endif;?>
-                    <?php if(user_access('administer permissions', $user)||user_has_role(6, $user)) : ?>
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-group"></i>
-                            <span class="menu-text"> 手稿权限管理 </span>
-                            <b class="arrow icon-angle-down"></b>
-                        </a>
-                        <ul class="submenu">
-                            <li class="home">
-                                <a href="<?php print url('content/content-level');?>">
-                                    <i class="icon-double-angle-right"></i>密级设置
-                                </a>
-                            </li>
-                            <li class="home">
-                                <a href="/admin/structure/taxonomy/miji" name="Shops_Audit.html" title="内容管理" class="iframeurl">
-                                    <i class="icon-double-angle-right"></i>密级管理
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <?php endif;?>
-                    <?php if(user_access('administer users', $user)) : ?>
+                    <?php if (user_access('administer users', $user)) : ?>
                     <li>
                             <a href="/admin" >
                                 <i class="icon-cog"></i>
                                 <span class="menu-text"> 系统管理 </span>
                             </a>
                     </li>
-                    <?php endif;?>
+                    <?php endif; ?>
 
                 </ul>
             </div>
@@ -407,29 +329,29 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="icon-home home-icon"></i>
-                        <a href="<?php print url('/');?>">首页</a>
+                        <a href="<?php echo url('/'); ?>">首页</a>
                     </li>
-                    <li class="active"><span class="Current_page iframeurl"><?php print $title;?></span></li>
+                    <li class="active"><span class="Current_page iframeurl"><?php echo $title; ?></span></li>
                 </ul>
             </div>
             <div class="search-result col-md-9">
-                <?php print render($page['content']);?>
+                <?php echo render($page['content']); ?>
             </div>
             <div class="left-bar col-md-3">
-                <?php if(isset($_GET['field_dc_creator'])) : ?>
+                <?php if (isset($_GET['field_dc_creator'])) : ?>
                 <div id="currrent-search-key" class="block block-facetapi contextual-links-region">
                     <h2>当前搜索</h2>
                     <div class="content">
                         <div class="item-list">
                             <ul class="facetapi-facetapi-links facetapi-facet-type facetapi-processed">
-                                <li class="leaf last"><?php print $_GET['field_dc_creator'];?></li>
+                                <li class="leaf last"><?php echo $_GET['field_dc_creator']; ?></li>
                             </ul>
-                            <?php print $juanzeng_date;?>
+                            <?php echo $juanzeng_date; ?>
                         </div>  
                     </div>
                 </div>
-                <?php endif;?>
-                <?php print render($page['leftbar']);?>
+                <?php endif; ?>
+                <?php echo render($page['leftbar']); ?>
             </div>
             
             <!--iframe id="iframe" style="border:0; width:100%; background-color:#FFF;" name="iframe" frameborder="0"
@@ -445,7 +367,7 @@
 <!--底部样式-->
 
 <div class="footer_style" id="footerstyle">
-    <p class="l_f">版权所有：上海图书馆</p>
+    <p class="l_f">版权所有：上海市历史博物馆</p>
 </div>
 <!--修改密码样式-->
 <div class="change_Pass_style" id="change_Pass">
@@ -539,7 +461,7 @@
                 $(this).addClass('active');
             });
 
-//时间设置
+        //时间设置
             function currentTime() {
                 var d = new Date(), str = '';
                 str += d.getFullYear() + '年';
@@ -554,7 +476,5 @@
             setInterval(function () {
                 $('#time').html(currentTime)
             }, 1000);
-
         });
-
-    </script>
+</script>
