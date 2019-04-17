@@ -248,10 +248,9 @@
                                     <i class="icon-double-angle-right"></i>权限管理
                                 </a>
                             </li>
-                           
-
                         </ul>
                     </li>
+                    <?php endif; ?>
                     <?php if (user_access('administer users', $user)) : ?>
                     <li>
                             <a href="/admin" >
