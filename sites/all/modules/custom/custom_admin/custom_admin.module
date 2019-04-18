@@ -231,19 +231,19 @@ function custom_admin_form_alter(&$form, &$form_state, $form_id) {
             $params['query']['field_dc_creator'] = $_GET['field_dc_creator'];
         }
 
-        if(current_path() == 'search/facets-list') {
-            $url = url('search/facets', $params);
-            $btn = '<a href="' . $url . '" class="btn btn-success">切换表格</a>';
-        } elseif(current_path() == 'search/facets') {
+        if(current_path() == 'search/facets') {
             $url = url('search/facets-list', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换列表</a>';
-        }
-        if(current_path() == 'search/creator-list') {
-            $url = url('search/creator', $params);
+        } elseif(current_path() == 'search/facets-list') {
+            $url = url('search/facets', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换表格</a>';
-        } elseif(current_path() == 'search/creator') {
+        }
+        if(current_path() == 'search/creator') {
             $url = url('search/creator-list', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换列表</a>';
+        } elseif(current_path() == 'search/creator-list') {
+            $url = url('search/creator', $params);
+            $btn = '<a href="' . $url . '" class="btn btn-success">切换表格</a>';
         }
         $form['submit']['#suffix'] = $btn;
     }
