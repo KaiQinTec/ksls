@@ -100,7 +100,7 @@
 												管理员登录
 											</h4>
 
-                                            <div class="login_icon"><img src="/<?php echo $path; ?>/images/login.png" /></div>
+                                            <div class="login_icon" style="margin-left:0px"><img src="/<?php echo $path; ?>/images/login.png" /></div>
                                             <?php echo $login_form; ?>
 										</div><!-- /widget-main -->
 

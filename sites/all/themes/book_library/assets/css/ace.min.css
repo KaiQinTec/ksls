@@ -1473,7 +1473,9 @@ blockquote,blockquote.pull-right
   color: #fff;
   font-size: 24px;
   text-shadow: none;
-  padding:0;
+  /* padding:0; */
+  padding-top: 10px;
+  padding-left: 0px;
 }
 
 .navbar .navbar-brand:hover,.navbar .navbar-brand:focus
