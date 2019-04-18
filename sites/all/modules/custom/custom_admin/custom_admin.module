@@ -654,8 +654,6 @@ function custom_admin_views_post_execute($view) {
         //return;
         // 统计各用户各类型节点出现次数
         $type_count = array();
-        // 统计流水号
-        $code_count = array();
         foreach($view->result as $i => $row) {
             $uid = 0;
             if(isset($row->users_node_uid)) {
@@ -668,32 +666,18 @@ function custom_admin_views_post_execute($view) {
             
             foreach($row as $key => $value) {
                 if(strpos($key, 'views_php') === 0 && $value != null) {
-                    // 征集批次
-                    if($key == 'views_php_3' && isset($row->field_field_zjliushui)) {
-                        $code = isset($row->field_field_zjliushui[0]['raw']['value']) ? $row->field_field_zjliushui[0]['raw']['value'] : NULL;
-                        
-                        if(!in_array($code, $code_count[$uid])) {
-                            $code_count[$uid][] = $code;
-                                //$type_count[$uid][$key] .= "$code -: ";
-                        }
-                         
-                    } else {
-                        $type_count[$uid][$key] += 1;
-                    }
+                    $type_count[$uid][$key] += 1;
                 } elseif(empty($type_count[$uid][$key])) {
                     if($value == null) $value = '';
                     $type_count[$uid][$key] = $value;
                 }
             }
         }
-        foreach($code_count as $uid => $codes) {
-            $type_count[$uid]['views_php_3'] = implode(',', $codes);
-        }
         // 删除重复的行
         $result = array();
         
         foreach($type_count as $uid => $line) {
-            $row = clone(current($view->result));
+            //$row = clone(current($view->result));
             // 为每个用户的每个节点类型填充统计数据
             foreach ($row as $key => $value) {
                 if(isset($line[$key])) {
