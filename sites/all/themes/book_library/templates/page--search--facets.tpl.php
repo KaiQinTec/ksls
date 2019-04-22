@@ -128,16 +128,19 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
                 <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <a href="javascript:void(0);" id="add-new-node" title="著录" class="btn btn-info">
+                        <i class="icon-file"></i>
+                    </a>
                     <a href="<?php echo url('/search/gaoji'); ?>" title="高级检索" class="btn btn-warning">
                         <i class="icon-search"></i>
                     </a>
                     <a href="<?php echo url('/insert/count'); ?>" title="著录统计" class="btn btn-success">
-                        <i class="icon-file"></i>
+                        <i class="icon-calendar"></i>
                     </a>
-                    <a href="<?php echo url('/insert/count/shenhe'); ?>" title="审核统计" class="btn btn-warning">
+                    <!-- <a href="<?php echo url('/insert/count/shenhe'); ?>" title="审核统计" class="btn btn-warning">
                         <i class="icon-check"></i>
-                    </a>
-                    <a href="<?php echo url('/analysis/all'); ?>" title="可视化统计" class="btn btn-success">
+                    </a> -->
+                    <a href="<?php echo url('/analysis/all'); ?>" title="可视化统计" class="btn btn-danger">
                         <i class="icon-eye-open"></i>
                     </a>
                 </div>
@@ -174,7 +177,7 @@
                                         <i class="icon-double-angle-right"></i>审核
                                     </a>
                                 </li>
-                            <?php endif; ?>
+                            <?php endif;?>
                             <li class="home">
                                 <a href="javascript:void(0);" title="" id="add-new-node">
                                     <i class="icon-double-angle-right"></i>著录
@@ -197,11 +200,11 @@
                                     <i class="icon-double-angle-right"></i>著录统计
                                 </a>
                             </li>
-                            <li class="home">
+                            <!-- <li class="home">
                                 <a href="/insert/count/shenhe" name="payment_method.html" title="审核统计" class="iframeurl">
                                     <i class="icon-double-angle-right"></i>审核统计
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="home">
                                 <a href="/analysis/all" name="Payment_Configure.html" title="可视化统计" class="iframeurl">
                                     <i class="icon-double-angle-right"></i>可视化统计
@@ -221,10 +224,10 @@
                                     <i class="icon-double-angle-right"></i><?php echo $menu['link_title']; ?>
                                 </a>
                             </li>
-                            <?php endforeach; ?>
+                            <?php endforeach;?>
                         </ul>
                     </li>
-                    <?php endif; ?>
+                    <?php endif;?>
                     <?php if (user_access('administer users', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-user"></i><span
@@ -247,7 +250,7 @@
                             </li>
                         </ul>
                     </li>
-                    <?php endif; ?>
+                    <?php endif;?>
                     <?php if (user_access('administer users', $user)): ?>
                     <li>
                             <a href="/admin" >
@@ -255,7 +258,7 @@
                                 <span class="menu-text"> 系统管理 </span>
                             </a>
                     </li>
-                    <?php endif; ?>
+                    <?php endif;?>
 
                 </ul>
             </div>
@@ -307,7 +310,7 @@
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
+                <?php endif;?>
                 <?php echo render($page['leftbar']); ?>
             </div>
 

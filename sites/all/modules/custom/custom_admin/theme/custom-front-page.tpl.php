@@ -123,10 +123,10 @@
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/tj1.png"/></i>
                     <h5 class="margin-top">著录统计</h5>
                 </a>
-                <a href="<?php echo url('insert/count/shenhe'); ?>" title="审核统计" class="btn  btn-success btn-sm no-radius">
+                <!-- <a href="<?php echo url('insert/count/shenhe'); ?>" title="审核统计" class="btn  btn-success btn-sm no-radius">
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/icon_right_s.png"/></i>
                     <h5 class="margin-top">审核统计</h5>
-                </a>
+                </a> -->
                 <a href="<?php echo url('analysis/all'); ?>" title="可视化统计" class="btn  btn-pink btn-sm no-radius">
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/tj2.png"/></i>
                     <h5 class="margin-top">可视化统计</h5>
