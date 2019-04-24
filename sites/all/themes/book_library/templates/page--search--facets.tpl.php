@@ -128,7 +128,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
                 <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                    <a href="javascript:void(0);" id="add-new-node" title="著录" class="btn btn-info">
+                    <a href="javascript:void(0);" id="add-new-node" title="数据采集" class="btn btn-info">
                         <i class="icon-file"></i>
                     </a>
                     <a href="<?php echo url('/search/gaoji'); ?>" title="高级检索" class="btn btn-warning">
@@ -161,34 +161,55 @@
                     </li>
                     <li>
                         <a href="#" class="dropdown-toggle">
-                            <i class="icon-edit"></i><span class="menu-text"> 著录管理 </span><b class="arrow icon-angle-down"></b>
+                            <i class="icon-edit"></i><span class="menu-text"> 数据采集 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
                             <?php //foreach($content_types as $type => $name) :?>
                             <?php //$type = str_replace('_', '-', $type);?>
                             <li class="home">
-                                <a href="<?php echo url('admin/content'); ?>">
-                                    <i class="icon-double-angle-right"></i>内容管理
+                                <a href="javascript:void(0);" title="" id="add-new-node">
+                                    <i class="icon-double-angle-right"></i>数据采集
                                 </a>
                             </li>
-                            <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)): ?>
-                                <li class="home">
-                                    <a href="<?php echo url('content/content-list'); ?>">
-                                        <i class="icon-double-angle-right"></i>审核
-                                    </a>
-                                </li>
-                            <?php endif;?>
                             <li class="home">
-                                <a href="javascript:void(0);" title="" id="add-new-node">
-                                    <i class="icon-double-angle-right"></i>著录
+                                <a href="" >
+                                    <i class="icon-double-angle-right"></i>数据导入
                                 </a>
                             </li>
                             <?php //endforeach;?>
                         </ul>
                     </li>
                     <li>
+                        <a href="#" class="dropdown-toggle">
+                            <i class="icon-edit"></i><span class="menu-text"> 数据管理 </span><b class="arrow icon-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                           
+                           <?php //foreach($content_types as $type => $name) :?>
+                           <?php //$type = str_replace('_', '-', $type);?>
+                           <li class="home">
+                               <a href="<?php echo url('admin/content'); ?>">
+                                   <i class="icon-double-angle-right"></i>数据管理
+                               </a>
+                           </li>
+                           <?php if (user_has_role(3, $user) || user_has_role(5, $user) || user_has_role(7, $user)): ?>
+                               <li class="home">
+                                   <a href="<?php echo url('content/content-list'); ?>">
+                                       <i class="icon-double-angle-right"></i>数据审核
+                                   </a>
+                               </li>
+                           <?php endif;?>
+                           <?php //endforeach;?>
+                       </ul>
+                    </li>
+                    <li>
                         <a href="<?php echo url('search/creator'); ?>" class="dropdown-toggle">
-                            <i class="icon-edit"></i><span class="menu-text"> 音视频展示 </span>
+                            <i class="icon-tasks"></i><span class="menu-text"> 数据展示 </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo url('/search/gaoji'); ?>" class="dropdown-toggle">
+                            <i class="icon-search"></i><span class="menu-text"> 高级检索 </span>
                         </a>
                     </li>
                     <li>
@@ -231,7 +252,7 @@
                     <?php if (user_access('administer users', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-user"></i><span
-                                class="menu-text"> 用户权限管理 </span><b class="arrow icon-angle-down"></b></a>
+                                class="menu-text"> 系统管理 </span><b class="arrow icon-angle-down"></b></a>
                         <ul class="submenu">
                             <li class="home">
                                 <a href="/admin/people" name="user_list.html" title="用户管理" class="iframeurl">
@@ -255,7 +276,7 @@
                     <li>
                             <a href="/admin" >
                                 <i class="icon-cog"></i>
-                                <span class="menu-text"> 系统管理 </span>
+                                <span class="menu-text"> 系统维护 </span>
                             </a>
                     </li>
                     <?php endif;?>
@@ -327,7 +348,7 @@
 <!--底部样式-->
 
 <div class="footer_style" id="footerstyle">
-    <p class="l_f">版权所有：上海市历史博物馆</p>
+    <p class="l_f">版权所有：上海历史博物馆</p>
 </div>
 <!--修改密码样式-->
 <div class="change_Pass_style" id="change_Pass">

@@ -12,7 +12,7 @@
 
     option = {
         title : {
-            text: '本月著录统计',
+            text: '本月数据采集统计',
             subtext: date.getFullYear() + '年' + (date.getMonth() + 1) + '月',
             x:'center'
         },
@@ -27,7 +27,7 @@
         },
         series: [
             {
-                name:'著录统计',
+                name:'数据采集统计',
                 type:'pie',
                 selectedMode: 'single',
                 radius: [0, '30%'],
@@ -55,7 +55,7 @@
                 ]
             },
             {
-                name:'著录统计',
+                name:'数据采集统计',
                 type:'pie',
                 radius: ['40%', '55%'],
                 label: {

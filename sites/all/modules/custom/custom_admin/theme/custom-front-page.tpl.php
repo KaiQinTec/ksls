@@ -105,9 +105,9 @@
         <div class="home_btn">
             <div>
             
-                <a href="javascript:void(0);"  title="著录" id="add-new-node" class="btn  btn-info btn-sm no-radius">
+                <a href="javascript:void(0);"  title="数据采集" id="add-new-node" class="btn  btn-info btn-sm no-radius">
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/icon-addwz.png"/></i>
-                    <h5 class="margin-top">著录</h5>
+                    <h5 class="margin-top">数据采集</h5>
                 </a>
                 <!-- <a href="<?php echo url('admin/content'); ?>" title="简单查询" class="btn  btn-info btn-sm no-radius">
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/search.png"/></i>
