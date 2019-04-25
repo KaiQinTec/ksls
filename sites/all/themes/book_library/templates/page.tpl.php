@@ -348,7 +348,7 @@
 <!--底部样式-->
 
 <div class="footer_style" id="footerstyle">
-    <p class="l_f">版权所有：上海历史博物馆</p>
+    <p class="l_f">版权所有：上海市历史博物馆</p>
 </div>
 <!--修改密码样式-->
 <div class="change_Pass_style" id="change_Pass">

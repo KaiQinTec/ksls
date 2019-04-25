@@ -220,7 +220,7 @@
                             <i class="icon-edit"></i><span class="menu-text"> 数据管理 </span><b class="arrow icon-angle-down"></b>
                         </a>
                         <ul class="submenu">
-                           
+
                            <?php //foreach($content_types as $type => $name) :?>
                            <?php //$type = str_replace('_', '-', $type);?>
                            <li class="home">
@@ -281,10 +281,10 @@
                                     <i class="icon-double-angle-right"></i><?php echo $menu['link_title']; ?>
                                 </a>
                             </li>
-                            <?php endforeach; ?>
+                            <?php endforeach;?>
                         </ul>
                     </li>
-                    <?php endif; ?>
+                    <?php endif;?>
                     <?php if (user_access('administer users', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-user"></i><span
@@ -309,7 +309,7 @@
 
                         </ul>
                     </li>
-                    <?php endif; ?>
+                    <?php endif;?>
                     <?php if (user_access('administer users', $user)): ?>
                     <li>
                             <a href="/admin" >
@@ -317,7 +317,7 @@
                                 <span class="menu-text"> 系统维护 </span>
                             </a>
                     </li>
-                    <?php endif; ?>
+                    <?php endif;?>
 
                 </ul>
             </div>
@@ -369,7 +369,7 @@
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
+                <?php endif;?>
                 <?php echo render($page['leftbar']); ?>
             </div>
 
@@ -386,7 +386,7 @@
 <!--底部样式-->
 
 <div class="footer_style" id="footerstyle">
-    <p class="l_f">版权所有：上海历史博物馆</p>
+    <p class="l_f">版权所有：上海市历史博物馆</p>
 </div>
 <!--修改密码样式-->
 <div class="change_Pass_style" id="change_Pass">
