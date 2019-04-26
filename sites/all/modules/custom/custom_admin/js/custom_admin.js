@@ -57,7 +57,11 @@
                                         var str = s.split('/');
                                         var result= str[6];
 
-                                        $(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                                        //原始图像途径
+                                        //$(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                                        //水印处理过图片路径
+                                        var nurl=s.substring(0,s.lastIndexOf('/'))+'/styles/watermark_001/public/'+result;
+                                        $(this).html('<a href="' + nurl + '" target="_blank">'+result+'</a>');
                                     } else {
 
                                         var s = $(this).find('img').eq(0).attr('src');
@@ -94,8 +98,12 @@
                                 var s = $(this).find('img').eq(0).attr('src');
                                 var str = s.split('/');
                                 var result= str[6];
-
-                                $(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                                
+                                //原始图像途径
+                                //$(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                                //水印处理过图片路径
+                                var nurl=s.substring(0,s.lastIndexOf('/'))+'/styles/watermark_001/public/'+result;
+                                $(this).html('<a href="' + nurl + '" target="_blank">'+result+'</a>');
                             } else {
 
                                 var s = $(this).find('img').eq(0).attr('src');
@@ -159,7 +167,11 @@
                                 var str = s.split('/');
                                 var result= str[6];
 
-                                $(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                                //原始图像途径
+                                //$(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                                //水印处理过图片路径
+                                var nurl=s.substring(0,s.lastIndexOf('/'))+'/styles/watermark_001/public/'+result;
+                                $(this).html('<a href="' + nurl + '" target="_blank">'+result+'</a>');
                             } else {
 
                                 var s = $(this).find('img').eq(0).attr('src');
@@ -243,7 +255,11 @@
                             var str = s.split('/');
                             var result= str[6];
 
-                            $(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                            //原始图像途径
+                            //$(this).html('<a href="' + $(this).find('img').eq(0).attr('src') + '" target="_blank">'+result+'</a>');
+                            //水印处理过图片路径
+                            var nurl=s.substring(0,s.lastIndexOf('/'))+'/styles/watermark_001/public/'+result;
+                            $(this).html('<a href="' + nurl + '" target="_blank">'+result+'</a>');
                         } else {
 
                             var s = $(this).find('img').eq(0).attr('src');
