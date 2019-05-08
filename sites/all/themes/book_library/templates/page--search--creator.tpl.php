@@ -131,12 +131,15 @@
                     <a href="javascript:void(0);" id="add-new-node" title="数据采集" class="btn btn-info">
                         <i class="icon-file"></i>
                     </a>
+                    <a href="<?php echo url('/admin/content'); ?>" title="数据管理" class="btn btn-success">
+                        <i class="icon-calendar"></i>
+                    </a>
                     <a href="<?php echo url('/search/gaoji'); ?>" title="高级检索" class="btn btn-warning">
                         <i class="icon-search"></i>
                     </a>
-                    <a href="<?php echo url('/insert/count'); ?>" title="著录统计" class="btn btn-success">
+                    <!-- <a href="<?php echo url('/insert/count'); ?>" title="著录统计" class="btn btn-success">
                         <i class="icon-calendar"></i>
-                    </a>
+                    </a> -->
                     <!-- <a href="<?php echo url('/insert/count/shenhe'); ?>" title="审核统计" class="btn btn-warning">
                         <i class="icon-check"></i>
                     </a> -->
@@ -213,6 +216,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="<?php echo url('/analysis/all'); ?>" class="dropdown-toggle">
+                            <i class="icon-bar-chart"></i><span class="menu-text"> 统计分析 </span>
+                        </a>
+                    </li>
+                    <!-- <li>
                         <a href="#" class="dropdown-toggle"><i class="icon-bar-chart"></i><span class="menu-text"> 统计分析 </span><b
                                 class="arrow icon-angle-down"></b></a>
                         <ul class="submenu">
@@ -221,18 +229,18 @@
                                     <i class="icon-double-angle-right"></i>著录统计
                                 </a>
                             </li>
-                            <!-- <li class="home">
+                            <li class="home">
                                 <a href="/insert/count/shenhe" name="payment_method.html" title="审核统计" class="iframeurl">
                                     <i class="icon-double-angle-right"></i>审核统计
                                 </a>
-                            </li> -->
+                            </li>
                             <li class="home">
                                 <a href="/analysis/all" name="Payment_Configure.html" title="可视化统计" class="iframeurl">
                                     <i class="icon-double-angle-right"></i>可视化统计
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <?php if (user_access('administer content types', $user)): ?>
                     <li>
                         <a href="#" class="dropdown-toggle">

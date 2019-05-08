@@ -46,19 +46,19 @@
 }?></div>
         <table class="table table-bordered">
             <tbody>
-            <?php foreach ($needs_review as $type_key => $type) :?>
+            <?php foreach ($needs_review as $type_key => $type): ?>
                 <tr>
                     <td class="name"><?php echo $type['name']; ?>：</td>
-                    <td class="munber"><a href="/content/content-list<?php echo '?type='.$type_key.'&state=needs_review'; ?>"><?php echo $type['count']; ?></a>&nbsp;件</td>
+                    <td class="munber"><a href="/content/content-list<?php echo '?type=' . $type_key . '&state=needs_review'; ?>"><?php echo $type['count']; ?></a>&nbsp;件</td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endforeach;?>
 
-            <?php foreach ($no_published as $type_key => $type) :?>
+            <?php foreach ($no_published as $type_key => $type): ?>
                 <tr>
                     <td class="name"><?php echo $type['name']; ?>：</td>
-                    <td class="munber"><a href="/admin/content<?php echo '?type='.$type_key.'&state=no_published'; ?>"><?php echo $type['count']; ?></a>&nbsp;件</td>
+                    <td class="munber"><a href="/admin/content<?php echo '?type=' . $type_key . '&state=no_published'; ?>"><?php echo $type['count']; ?></a>&nbsp;件</td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endforeach;?>
             </tbody>
         </table>
     </div>
@@ -68,7 +68,7 @@
             <div class="title_name">当月著录统计信息</div>
             <table class="table table-bordered">
                 <tbody>
-                <?php foreach ($current_month_count_list as $type_key => $type) :?>
+                <?php foreach ($current_month_count_list as $type_key => $type): ?>
                 <tr>
                     <td class="name"><?php echo $type['name']; ?>：</td>
                     <td class="munber">
@@ -76,7 +76,7 @@
                             <?php echo $type['count']; ?></a>&nbsp;件
                         </td>
                 </tr>
-                <?php endforeach; ?>
+                <?php endforeach;?>
                 </tbody>
             </table>
         </div>
@@ -84,7 +84,7 @@
             <div class="title_name">当月审核统计信息</div>
             <table class="table table-bordered">
                 <tbody>
-                <?php foreach ($published as $type_key => $type) :?>
+                <?php foreach ($published as $type_key => $type): ?>
                 <tr>
                     <td class="name"><?php echo $type['name']; ?>：</td>
                     <td class="munber">
@@ -93,7 +93,7 @@
                         </a>&nbsp;件
                     </td>
                 </tr>
-                <?php endforeach; ?>
+                <?php endforeach;?>
                 </tbody>
             </table>
         </div>
@@ -104,24 +104,18 @@
     <div class="clearfix">
         <div class="home_btn">
             <div>
-            
+
                 <a href="javascript:void(0);"  title="数据采集" id="add-new-node" class="btn  btn-info btn-sm no-radius">
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/icon-addwz.png"/></i>
                     <h5 class="margin-top">数据采集</h5>
                 </a>
-                <!-- <a href="<?php echo url('admin/content'); ?>" title="简单查询" class="btn  btn-info btn-sm no-radius">
-                    <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/search.png"/></i>
-                    <h5 class="margin-top">简单查询</h5>
-                </a> -->
-                <?php if (user_has_role(3, $user) || user_has_role(5, $user)) : ?>
-                    <a href="<?php echo url('search/gaoji'); ?>" title="高级检索" class="btn  btn-info btn-sm no-radius">
-                        <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/gaojisearch.png"/></i>
-                        <h5 class="margin-top">高级检索</h5>
-                    </a>
-                <?php endif; ?>
-                <a href="<?php echo url('insert/count'); ?>" title="著录统计" class="btn  btn-purple btn-sm no-radius">
-                    <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/tj1.png"/></i>
-                    <h5 class="margin-top">著录统计</h5>
+                <a href="<?php echo url('admin/content'); ?>" title="数据管理" class="btn  btn-purple btn-sm no-radius">
+                    <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/star-on-big.png"/></i>
+                    <h5 class="margin-top">数据管理</h5>
+                </a>
+                <a href="<?php echo url('search/gaoji'); ?>" title="高级检索" class="btn  btn-info btn-sm no-radius">
+                    <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/gaojisearch.png"/></i>
+                    <h5 class="margin-top">高级检索</h5>
                 </a>
                 <!-- <a href="<?php echo url('insert/count/shenhe'); ?>" title="审核统计" class="btn  btn-success btn-sm no-radius">
                     <i class="bigger-200"><img src="<?php echo $theme_path; ?>/images/icon_right_s.png"/></i>

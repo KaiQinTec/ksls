@@ -1,49 +1,51 @@
 <?php
 
-function custom_admin_preprocess_html(&$variables) {
+function custom_admin_preprocess_html(&$variables)
+{
     global $theme;
-    if($theme == 'book_library') {
+    if ($theme == 'book_library') {
         $path = drupal_get_path('module', 'custom_admin');
         drupal_add_css($path . '/css/custom_admin.css', ['type' => 'file']);
         drupal_add_js($path . '/js/custom_admin.js', ['type' => 'file']);
     }
 
     $current = current_path();
-    if($current == 'insert/count') {
-        
+    if ($current == 'insert/count') {
+
     }
 }
 
 /**
  * Implement hook_query_alter
- * 
+ *
  * 过滤掉重复的内容，因为审核历史会生成多条，所以会有重复内容
  * $query->groupBy在 hook_views_query_alter 内不生效
  */
 /*function custom_admin_query_alter(&$query) {
-    if(!isset($query->alterMetaData)) {
-        return;
-    }
-    if($query->alterMetaData['view']->name == 'admin_views_node') {
-        $query->groupBy('node.nid');
-    }
-    
+if(!isset($query->alterMetaData)) {
+return;
+}
+if($query->alterMetaData['view']->name == 'admin_views_node') {
+$query->groupBy('node.nid');
+}
+
 }*/
 
 /**
  * Implement hook_views_query_alter
  */
-function custom_admin_views_query_alter(&$view, &$query) {
+function custom_admin_views_query_alter(&$view, &$query)
+{
     global $user;
-    if($view->name == 'admin_views_node' || $view->name == 'content_shenhe_list') {
+    if ($view->name == 'admin_views_node' || $view->name == 'content_shenhe_list') {
         //$query->add_orderby(NULL, 'workbench_moderation_node_history.hid', 'DESC');
         // 设置著录人员只能查看自己的内容
-        if(user_has_role(4, $user)) {
+        if (user_has_role(4, $user)) {
             $query->add_where(1, 'node.uid', $user->uid);
         }
 
         // 设置人员查看的密级
-        if(!user_has_role(3, $user)) {
+        if (!user_has_role(3, $user)) {
             $field_table = 'field_data_field_mi_ji';
             $field_name = 'field_mi_ji_tid';
             $join = new views_join();
@@ -66,18 +68,20 @@ function custom_admin_views_query_alter(&$view, &$query) {
             $user_wrapper = entity_metadata_wrapper('user', $user);
             $miji_term_weight = $user_wrapper->field_mi_ji->value()->weight;
 
-            if(empty($miji_term_weight)) $miji_term_weight = 1000;
+            if (empty($miji_term_weight)) {
+                $miji_term_weight = 1000;
+            }
 
             // 增加查询组
             $query->set_where_group('OR', 15);
             $query->add_where(15, "taxonomy_term_data.weight", $miji_term_weight, '<=');
-            $query->add_where(15, "$field_table.$field_name", NULL);
+            $query->add_where(15, "$field_table.$field_name", null);
         }
     }
 
     // 过滤著录统计列表，只统计当前月份的内容
-    if($view->name == 'views_insert_count') {
-        
+    if ($view->name == 'views_insert_count') {
+
     }
 }
 
@@ -85,28 +89,32 @@ function custom_admin_views_query_alter(&$view, &$query) {
  * Implement hook_node_view
  * 当用户查看Node的时候，检查用户的密级
  */
-function custom_admin_node_view($node, $view_mode, $langcode) {
-    
+function custom_admin_node_view($node, $view_mode, $langcode)
+{
+
 }
 
 /**
  * Implement hook_node_access
  * 当用户查看Node的时候，检查用户的密级
  */
-function custom_admin_node_access($node, $op, $account) {
+function custom_admin_node_access($node, $op, $account)
+{
     global $user;
-    
-    // 如果是索引任务，取消检查
-    if(current_path() == 'batch' || $op != 'view') return;
 
-    if(isset($node->field_shl_secretlevel) && !user_has_role(3, $user)) {
+    // 如果是索引任务，取消检查
+    if (current_path() == 'batch' || $op != 'view') {
+        return;
+    }
+
+    if (isset($node->field_shl_secretlevel) && !user_has_role(3, $user)) {
         $node_wrapper = entity_metadata_wrapper('node', $node);
         $user_wrapper = entity_metadata_wrapper('user', $user);
 
         $node_miji = $node_wrapper->field_mi_ji->value()->weight;
         $user_miji = $user_wrapper->field_mi_ji->value()->weight;
 
-        if($user_miji < $node_miji) {
+        if ($user_miji < $node_miji) {
             return NODE_ACCESS_DENY;
         }
     }
@@ -116,27 +124,27 @@ function custom_admin_node_access($node, $op, $account) {
  * Implement hook_node_prepare
  * 当用户编辑Node的时候，检查用户的密级
  */
-function custom_admin_node_prepare($node) {
+function custom_admin_node_prepare($node)
+{
     global $user;
-    
-    if(isset($node->field_mi_ji) && !user_has_role(3, $user)) {
+
+    if (isset($node->field_mi_ji) && !user_has_role(3, $user)) {
         $node_wrapper = entity_metadata_wrapper('node', $node);
         $user_wrapper = entity_metadata_wrapper('user', $user);
 
         $node_miji = $node_wrapper->field_mi_ji->value()->weight;
         $user_miji = $user_wrapper->field_mi_ji->value()->weight;
 
-        if($user_miji < $node_miji) {
+        if ($user_miji < $node_miji) {
             drupal_access_denied();
             exit;
         }
     }
 
-    if(user_has_role(4, $user)) {
-        if(isset($node->workbench_moderation))
-        {
+    if (user_has_role(4, $user)) {
+        if (isset($node->workbench_moderation)) {
             $state = $node->workbench_moderation['current']->state;
-            if($state == 'published') {
+            if ($state == 'published') {
                 drupal_access_denied();
                 exit;
             }
@@ -148,131 +156,127 @@ function custom_admin_node_prepare($node) {
  * Implement hook_form_alter
  * 针对前端页面调整添加节点的表单样式
  */
-function custom_admin_form_alter(&$form, &$form_state, $form_id) {    
+function custom_admin_form_alter(&$form, &$form_state, $form_id)
+{
     global $theme;
     global $user;
 
-
     $form_arr = explode('_', $form_id);
-    if(end($form_arr) == 'form' && $form_arr[count($form_arr) - 2] == 'node') {
+    if (end($form_arr) == 'form' && $form_arr[count($form_arr) - 2] == 'node') {
 
-    	 $form['actions']['submit']['#submit'][] = '_custom_admin_node_form_submit';
-   
-
-
+        $form['actions']['submit']['#submit'][] = '_custom_admin_node_form_submit';
 
         $form['additional_settings']['#weight'] = 150;
         $form['actions']['#weight'] = 151;
 
         // 移动添加更多按钮到行内
-        foreach($form as $name => $item) {
+        foreach ($form as $name => $item) {
             $a = substr($name, 0, 6);
-            if(substr($name, 0, 6) == 'field_') {
-                if(isset($item['und']['add_more'])) {
+            if (substr($name, 0, 6) == 'field_') {
+                if (isset($item['und']['add_more'])) {
                     $form[$name]['und'][0]['add_more'] = $item['und']['add_more'];
                     $form[$name]['und'][0]['add_more']['#attributes']['class'][] = 'pull-right';
                     //unset($form[$name]['und']['add_more']);
                 }
             }
         }
-               
-        
+
         // 加载DataTables
         $path = drupal_get_path('module', 'custom_admin');
         $form['#attached']['js'][] = $path . '/datatables/datatables.js';
         $form['#attached']['css'][] = $path . '/datatables/datatables.min.css';
 
-        if(user_has_role(4, $user)) {
+        if (user_has_role(4, $user)) {
             drupal_add_css('.form-item-workbench-moderation-state-new { display: none; }', 'inline');
         }
 
         // 增加暂存按钮
         // if(user_has_role(4,$user)) {
-        $form['actions']['temp_storage'] = Array
-        (
+        $form['actions']['temp_storage'] = array
+            (
             '#type' => 'submit',
             '#access' => 1,
             '#value' => '暂存',
             '#weight' => 5,
-            '#submit' => Array(
+            '#submit' => array(
                 'node_form_submit',
                 'addanother_node_form_message_submit',
-                'workbench_moderation_node_form_submit'
+                'workbench_moderation_node_form_submit',
 
-             )
+            ),
         );
         // } else {
         //     // 对非著录人员隐藏草稿选项
         //     unset($form['options']['workbench_moderation_state_new']['#options']['drafty']);
         // }
-        
+
     }
 
     // 分面搜索
-    if($form['#id'] == 'views-exposed-form-custom-facets-pages-page' 
+    if ($form['#id'] == 'views-exposed-form-custom-facets-pages-page'
         || $form['#id'] == 'views-exposed-form-custom-facets-pages-page-2'
         || $form['#id'] == 'views-exposed-form-custom-facets-pages-page-3'
         || $form['#id'] == 'views-exposed-form-custom-facets-pages-page-4') {
         $form['field_shl_donator']['#attributes'] = array(
-            'class' => array('form-control')
+            'class' => array('form-control'),
         );
         $form['field_dc_creator']['#attributes'] = array(
-            'class' => array('form-control')
+            'class' => array('form-control'),
         );
         $form['submit']['#attributes'] = array(
-            'class' => array('btn', 'btn-default')
+            'class' => array('btn', 'btn-default'),
         );
 
         $params = array('query' => array());
-        if(isset($_GET['field_shl_donator'])) {
+        if (isset($_GET['field_shl_donator'])) {
             $params['query']['field_shl_donator'] = $_GET['field_shl_donator'];
         }
-        if(isset($_GET['field_dc_creator'])) {
+        if (isset($_GET['field_dc_creator'])) {
             $params['query']['field_dc_creator'] = $_GET['field_dc_creator'];
         }
 
-        if(current_path() == 'search/facets') {
+        if (current_path() == 'search/facets') {
             $url = url('search/facets-list', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换列表</a>';
-        } elseif(current_path() == 'search/facets-list') {
+        } elseif (current_path() == 'search/facets-list') {
             $url = url('search/facets', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换表格</a>';
         }
-        if(current_path() == 'search/creator') {
+        if (current_path() == 'search/creator') {
             $url = url('search/creator-list', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换列表</a>';
-        } elseif(current_path() == 'search/creator-list') {
+        } elseif (current_path() == 'search/creator-list') {
             $url = url('search/creator', $params);
             $btn = '<a href="' . $url . '" class="btn btn-success">切换表格</a>';
         }
         $form['submit']['#suffix'] = $btn;
     }
 
-    if($form['#action'] == '/admin/content' && !user_has_role(3, $user) && !user_has_role(5, $user)) {
-         unset($form['uid']);
-         unset($form['#info']['filter-uid']);
+    if ($form['#action'] == '/admin/content' && !user_has_role(3, $user) && !user_has_role(5, $user)) {
+        unset($form['uid']);
+        unset($form['#info']['filter-uid']);
     }
 
     // 设置VBO可选的操作
-    if($form_id == 'views_form_admin_views_node_system_1' || $form_id == 'views_form_content_shenhe_list_page_1') {
-        $selects =& $form['select']['operation']['#options'];
+    if ($form_id == 'views_form_admin_views_node_system_1' || $form_id == 'views_form_content_shenhe_list_page_1') {
+        $selects = &$form['select']['operation']['#options'];
         $form["select"]["operation"]["#options"] = array(
             "- 选择一个操作 -",
-            "action::views_bulk_operations_delete_item" => '删除'
+            "action::views_bulk_operations_delete_item" => '删除',
         );
     }
 
-    if(current_path() == 'content/content-level' && $form_id == 'views_form_content_shenhe_list_page_2') {
+    if (current_path() == 'content/content-level' && $form_id == 'views_form_content_shenhe_list_page_2') {
         // 增加批量修改密级
         // 加载密级列表
-	    $form['select']['operation']['#access']=false;
+        $form['select']['operation']['#access'] = false;
         $form["select"]["mi_ji"] = array(
             '#type' => 'select',
-            '#options' => array("- 选择密级 -")
+            '#options' => array("- 选择密级 -"),
         );
         $tax = taxonomy_vocabulary_machine_name_load('miji');
         $tree = taxonomy_get_tree($tax->vid);
-        foreach($tree as $term) {
+        foreach ($tree as $term) {
             $form["select"]["mi_ji"]['#options'][$term->tid] = $term->name;
         }
 
@@ -285,91 +289,86 @@ function custom_admin_form_alter(&$form, &$form_state, $form_id) {
         $form['select']['submit'] = $submit;
     }
 
-    if($form_id == 'views_exposed_form' ) {    
-       if(isset($form['created']['max']))     
-           $form['created']['max']['#title'] = '-';          
- 
-        
+    if ($form_id == 'views_exposed_form') {
+        if (isset($form['created']['max'])) {
+            $form['created']['max']['#title'] = '-';
+        }
+
     }
-    if($form_id == 'views_exposed_form' && isset($form['stamp']['max'])) {
+    if ($form_id == 'views_exposed_form' && isset($form['stamp']['max'])) {
         $form['stamp']['max']['#title'] = '-';
     }
-   
 
 }
 
+function custom_admin_form_views_form_zhengjilist_page_alter(&$form, &$form_state)
+{
 
-function custom_admin_form_views_form_zhengjilist_page_alter(&$form, &$form_state){
-
-    if($form_state['selection']){
+    if ($form_state['selection']) {
         $selection = $form_state['selection'];
- 
-        $query= db_select('field_data_field_liushuihao','l');
 
-        $query->join('field_data_field_zjliushui','z',"l.field_liushuihao_value=z.field_zjliushui_value");
-        $query->fields('l',array('entity_id'));
+        $query = db_select('field_data_field_liushuihao', 'l');
+
+        $query->join('field_data_field_zjliushui', 'z', "l.field_liushuihao_value=z.field_zjliushui_value");
+        $query->fields('l', array('entity_id'));
         $query->distinct();
-      
 
-        $query->condition('l.entity_id',$selection,'IN');
+        $query->condition('l.entity_id', $selection, 'IN');
 
-        $result= $query->execute();        
+        $result = $query->execute();
 
-        if($result->rowCount()) {
-            $form['select'][]=array('#markup'=>'以下征集已存在关联,无法删除<br/>');
-            $form['actions']['submit']['#access']=false;            
+        if ($result->rowCount()) {
+            $form['select'][] = array('#markup' => '以下征集已存在关联,无法删除<br/>');
+            $form['actions']['submit']['#access'] = false;
         }
-        foreach ($result as $r) {            
-            $node=node_load($r->entity_id);
-            $form['select'][]=array('#markup'=>$node->title.'<br/>');
+        foreach ($result as $r) {
+            $node = node_load($r->entity_id);
+            $form['select'][] = array('#markup' => $node->title . '<br/>');
+        }
     }
-}
 
-   // var_dump($form);
-    $form['select']['add']=array(
-    '#theme'=>'link',
-     "#text"=>'新增',
-    '#path'=>'node/add/zhengji',
-       "#options"=>array(
-           "attributes"=>array(
-               "id"=>"add_zhengji"
-           ),
-           "html"=>false
-       )
+    // var_dump($form);
+    $form['select']['add'] = array(
+        '#theme' => 'link',
+        "#text" => '新增',
+        '#path' => 'node/add/zhengji',
+        "#options" => array(
+            "attributes" => array(
+                "id" => "add_zhengji",
+            ),
+            "html" => false,
+        ),
     );
 
-    
-
-
 }
 
-function _custom_admin_node_form_submit($form, &$form_state){
-	if($form_state['triggering_element']['#id']=='edit-submit' && $form_state['node']->type=='zhengji' ) {		
-	    $form_state['redirect']='content/zhengji';
-	}
+function _custom_admin_node_form_submit($form, &$form_state)
+{
+    if ($form_state['triggering_element']['#id'] == 'edit-submit' && $form_state['node']->type == 'zhengji') {
+        $form_state['redirect'] = 'content/zhengji';
+    }
 }
-
-
 
 /**
  * 接管几项需要添加多个值的字段
  */
-function custom_admin_add_more_js($form, $form_state) {
+function custom_admin_add_more_js($form, $form_state)
+{
     $button = $form_state['triggering_element'];
-  
+
     // Go one level up in the form, to the widgets container.
     $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -1));
     $field_name = $element['#field_name'];
     $langcode = $element['#language'];
     $parents = $element['#field_parents'];
-  
+
     $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
-  
+
     $field = $field_state['field'];
     if ($field['cardinality'] != FIELD_CARDINALITY_UNLIMITED) {
-      return;
+        return;
     }
-  
+
     // Add a DIV around the delta receiving the Ajax effect.
     $delta = $element['#max_delta'];
     $element[$delta]['#prefix'] = '<div class="ajax-new-content">' . (isset($element[$delta]['#prefix']) ? $element[$delta]['#prefix'] : '');
@@ -378,38 +377,40 @@ function custom_admin_add_more_js($form, $form_state) {
     /*$field_name = $element['#field_name'];
     $ta = explode('_', $field_name);
     if(end($ta) == 'useapi') {
-        $element[$delta]['#suffix'] = '<button class="use-address-api-list" type="button">选取</button>';
+    $element[$delta]['#suffix'] = '<button class="use-address-api-list" type="button">选取</button>';
     } else {
-        $element[$delta]['#suffix'] = '<button class="use-api-list" type="button">选取</button>';
+    $element[$delta]['#suffix'] = '<button class="use-api-list" type="button">选取</button>';
     }
-    
+
     $element[$delta]['value']['#attributes'] = array('readonly' => 'readonly');*/
-  
+
     return $element;
-  }
+}
 
 /**
  * Implement hook_ajax_render_alter
  */
-function custom_admin_ajax_render_alter(&$commands) {
+function custom_admin_ajax_render_alter(&$commands)
+{
     $commands[] = array(
-		'command' => 'MoreUseNameApi',
-		'method' => 'replace',
-      	'effect' => 'fade',
-	);
+        'command' => 'MoreUseNameApi',
+        'method' => 'replace',
+        'effect' => 'fade',
+    );
 }
 
 /**
  * Implement hook_menu
  */
-function custom_admin_menu() {
+function custom_admin_menu()
+{
     $items = array();
 
     // 用户首页
     $items['front'] = array(
         'title' => '首页',
         'page callback' => 'user_front_page',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -420,7 +421,7 @@ function custom_admin_menu() {
         'title arguments' => array(1),
         'page callback' => 'custom_structure_manage',
         'page arguments' => array(1),
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -429,7 +430,7 @@ function custom_admin_menu() {
     $items['get-api-list'] = array(
         'title' => '规范档',
         'page callback' => 'get_api_list',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -438,7 +439,7 @@ function custom_admin_menu() {
     $items['get-address-api-list'] = array(
         'title' => '规范档',
         'page callback' => 'get_address_api_list',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -447,7 +448,7 @@ function custom_admin_menu() {
     $items['add-user-to-api'] = array(
         'title' => '规范档',
         'page callback' => 'add_user_to_api',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -456,7 +457,7 @@ function custom_admin_menu() {
     $items['add-addr-to-api'] = array(
         'title' => '规范档',
         'page callback' => 'add_addr_to_api',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -477,7 +478,7 @@ function custom_admin_menu() {
         'title' => '获取内容预览',
         'page callback' => 'ajax_get_node_review',
         'page arguments' => array(2),
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -487,7 +488,7 @@ function custom_admin_menu() {
         'title' => '获取内容预览',
         'page callback' => 'ajax_get_code_review',
         'page arguments' => array(2),
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -497,7 +498,7 @@ function custom_admin_menu() {
         'title' => '获取内容预览',
         'page callback' => 'ajax_get_node_review',
         'page arguments' => array(2),
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -506,7 +507,7 @@ function custom_admin_menu() {
     $items['user-list/donation'] = array(
         'title' => '捐献人列表',
         'page callback' => 'custom_admin_get_donation_user_list',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -515,7 +516,7 @@ function custom_admin_menu() {
     $items['user-list/creator'] = array(
         'title' => '责任者列表',
         'page callback' => 'custom_admin_get_creator_user_list',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
         'file' => 'custom_admin.pages.inc',
     );
@@ -524,32 +525,32 @@ function custom_admin_menu() {
     $items['import/data'] = array(
         'title' => '导入历史数据',
         'page callback' => 'import_history_data',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
-        'file' => 'custom_admin.pages.inc'
+        'file' => 'custom_admin.pages.inc',
     );
 
     $items['import/data/insert'] = array(
         'title' => '导入历史数据',
         'page callback' => 'import_history_zhengjian_data_insert',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
-        'file' => 'custom_admin.pages.inc'
+        'file' => 'custom_admin.pages.inc',
     );
-    
-    $items['custom_admin/zhengjiliushui']=array(
+
+    $items['custom_admin/zhengjiliushui'] = array(
         'title' => '征集批次',
         'page callback' => '_custom_admin_zhengjiliushui',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
-        'file' => 'custom_admin.pages.inc'
+        'file' => 'custom_admin.pages.inc',
     );
-    $items['custom_admin/fullzhengjiliushui']=array(
+    $items['custom_admin/fullzhengjiliushui'] = array(
         'title' => '完全匹配征集批次',
         'page callback' => '_custom_admin_zhengjiliushui_full',
-        'access callback' => TRUE,
+        'access callback' => true,
         'type' => MENU_CALLBACK,
-        'file' => 'custom_admin.pages.inc'
+        'file' => 'custom_admin.pages.inc',
     );
 
     return $items;
@@ -559,15 +560,17 @@ function custom_admin_menu() {
  * 由于审核人员没有引入 _field_ui_field_name_exists 方法会导致错误
  * 所以在这里增加一步验证
  */
-function custom_admin_menu_alter(&$items) {
+function custom_admin_menu_alter(&$items)
+{
     $items['system/ajax']['page callback'] = 'custom_admin_include_form_inc';
 }
 
 /**
  * 检查是否引入了form.admin.inc
  */
-function custom_admin_include_form_inc() {
-    if(!function_exists('_field_ui_field_name_exists')) {
+function custom_admin_include_form_inc()
+{
+    if (!function_exists('_field_ui_field_name_exists')) {
         module_load_include('inc', 'field_ui', 'field_ui.admin');
     }
     return ajax_form_callback();
@@ -576,7 +579,8 @@ function custom_admin_include_form_inc() {
 /**
  * 获取统计页面的标题
  */
-function custom_admin_get_analysis_page_title($type) {
+function custom_admin_get_analysis_page_title($type)
+{
     $page_title = '统计分析';
 
     return $page_title;
@@ -585,7 +589,8 @@ function custom_admin_get_analysis_page_title($type) {
 /**
  * Implement hook_theme
  */
-function custom_admin_theme() {
+function custom_admin_theme()
+{
     $path = drupal_get_path('module', 'custom_admin');
     $items = array(
         'custom_front_page' => array(
@@ -637,91 +642,103 @@ function custom_admin_theme() {
 /**
  * 获取当前编辑的bundle名称
  */
-function custom_admin_get_node_type_name($node_type) {
+function custom_admin_get_node_type_name($node_type)
+{
     $types = _node_types_build()->names;
     return isset($types[$node_type]) ? $types[$node_type] : '管理字段';
 }
 
-
 /**
  * Implements hook_views_post_execute().
- * 
+ *
  * 处理著录统计页面
  */
-function custom_admin_views_post_execute($view) {
+function custom_admin_views_post_execute($view)
+{
+    if ($view->name == 'views_insert_count' && $view->current_display != 'shenhe_list_juanxian' && $view->current_display != 'juanxian_list_export') {
 
-    if($view->name == 'views_insert_count' && $view->current_display != 'shenhe_list_juanxian' && $view->current_display != 'juanxian_list_export') {
-        //return;
-        // 统计各用户各类型节点出现次数
-        $type_count = array();
-        foreach($view->result as $i => $row) {
-            $uid = 0;
-            if(isset($row->users_node_uid)) {
-                $uid = $row->users_node_uid;
-            } elseif (isset($row->users_field_data_field_shzkzjzxm_uid)) {
-                $uid = $row->users_field_data_field_shzkzjzxm_uid;
-            } elseif (isset($row->users_workbench_moderation_node_history_uid)) {
-                $uid = $row->users_workbench_moderation_node_history_uid;
-            }
-            
-            foreach($row as $key => $value) {
-                if(strpos($key, 'views_php') === 0 && $value != null) {
-                    $type_count[$uid][$key] += 1;
-                } elseif(empty($type_count[$uid][$key])) {
-                    if($value == null) $value = '';
-                    $type_count[$uid][$key] = $value;
+        if ($view->current_display == 'shenhe_list_export' || $view->current_display == 'shenhe_list') {
+            // 统计各用户各类型节点出现次数
+            $type_count = array();
+            foreach ($view->result as $i => $row) {
+                $uid = 0;
+                if (isset($row->users_node_uid)) {
+                    $uid = $row->users_node_uid;
+                } elseif (isset($row->users_field_data_field_shzkzjzxm_uid)) {
+                    $uid = $row->users_field_data_field_shzkzjzxm_uid;
+                } elseif (isset($row->users_workbench_moderation_node_history_uid)) {
+                    $uid = $row->users_workbench_moderation_node_history_uid;
                 }
-            }
-        }
-        // 删除重复的行
-        $result = array();
-        
-        foreach($type_count as $uid => $line) {
-            //$row = clone(current($view->result));
-            // 为每个用户的每个节点类型填充统计数据
-            foreach ($row as $key => $value) {
-                if(isset($line[$key])) {
-                    $row->$key = $line[$key];
-                }
-            }
-            $result[$uid] = $row;
-        }
-
-        // 审核统计页面增加统计一行
-        if($view->current_display == 'insert_count_shenhe_export' || $view->current_display == 'insert_count_shenhe') {
-            
-            $row = new stdClass();
-            if(count($view->result) > 0) {
-                $row = clone(current($view->result));
-            }   
-
-            // 统计所有数据
-            $total = array();
-            foreach($type_count as $uid => $line) {
-                // 为每个用户的每个节点类型填充统计数据
                 foreach ($row as $key => $value) {
-                    if(is_numeric($line[$key])) {
-                        $total[$key] += $line[$key];
+                    if (strpos($key, 'views_php') === 0 && $value != null) {
+                        $type_count[$uid][$key] += 1;
+                    } elseif (empty($type_count[$uid][$key])) {
+                        if ($value == null) {
+                            $value = '';
+                        }
+                        $type_count[$uid][$key] = $value;
                     }
                 }
             }
-
-            foreach($row as $key => $value) {
-                $row->$key = $total[$key];
+            // 删除重复的行
+            $result = array();
+            foreach ($type_count as $uid => $line) {
+            //     // $krow = current($view->result);
+            //     // // // 为每个用户的每个节点类型填充统计数据
+            //     // foreach ($krow as $key => $value) {
+            //     //     if (isset($line[$key])) {
+            //     //         $krow->$key = $line[$key];
+            //     //     }
+            //     // }
+                $result[$uid] = $line;
             }
-
-            $result[] = $row;
+            // foreach ($type_count as $uid => $line) {
+            //     // $row = clone(current($view->result));
+            //     // // 为每个用户的每个节点类型填充统计数据
+            //     foreach ($row as $key => $value) {
+            //         if(isset($line[$key])) {
+            //             $row->$key = $line[$key];
+            //         }
+            //     }
+            //     $result[$uid] = $row;
+            // }
         }
+
+        // 审核统计页面增加统计一行
+        // if($view->current_display == 'insert_count_shenhe_export' || $view->current_display == 'insert_count_shenhe') {
+
+        //     $row = new stdClass();
+        //     if(count($view->result) > 0) {
+        //         $row = clone(current($view->result));
+        //     }
+
+        //     // 统计所有数据
+        //     $total = array();
+        //     foreach($type_count as $uid => $line) {
+        //         // 为每个用户的每个节点类型填充统计数据
+        //         foreach ($row as $key => $value) {
+        //             if(is_numeric($line[$key])) {
+        //                 $total[$key] += $line[$key];
+        //             }
+        //         }
+        //     }
+
+        //     foreach($row as $key => $value) {
+        //         $row->$key = $total[$key];
+        //     }
+
+        //     $result[] = $row;
+        // }
 
         $view->result = $result;
     } elseif ($view->current_display == 'shenhe_list_juanxian' || $view->current_display == 'juanxian_list_export') {
         $row = new stdClass();
-        if(count($view->result) > 0) {
-            $row = clone(current($view->result));
+        if (count($view->result) > 0) {
+            $row = clone (current($view->result));
         }
 
         $count = 0;
-        foreach($view->result as $item) {
+        foreach ($view->result as $item) {
             $count += $item->node_type_1;
         }
 
@@ -735,28 +752,29 @@ function custom_admin_views_post_execute($view) {
  *
  * 重写审核
  */
-function custom_admin_preprocess_views_view_table(&$vars) {
-    if($vars['view']->name == 'views_insert_count') {
-        if($vars['view']->current_display == 'shenhe_list') {
+function custom_admin_preprocess_views_view_table(&$vars)
+{
+    if ($vars['view']->name == 'views_insert_count') {
+        if ($vars['view']->current_display == 'shenhe_list') {
             $vars['theme_hook_suggestions'][] = 'custom_views_shenhe_table';
         }
         // 捐献统计
-        if($vars['view']->current_display == 'shenhe_list_juanxian') {
-            if(empty($_GET['field_shl_donator_value_1']) 
+        if ($vars['view']->current_display == 'shenhe_list_juanxian') {
+            if (empty($_GET['field_shl_donator_value_1'])
                 && empty($_GET['field_shl_donator_format'])
                 && (empty($_GET['type']) || $_GET['type'] == 'All')
-                ) {
+            ) {
                 $new_rows = array();
                 $max_key = max(array_keys($vars['rows']));
-                foreach($vars['rows'] as $key => $row) {
+                foreach ($vars['rows'] as $key => $row) {
                     unset($vars['rows'][$key]['php']);
 
-                    if($key == $max_key) {
+                    if ($key == $max_key) {
                         continue;
                     }
                     $t = array_column($new_rows, 'type');
                     $s_key = array_search($row['type'], $t);
-                    if($s_key !== FALSE) {
+                    if ($s_key !== false) {
                         $new_rows[$s_key]['type_1'] += $row['type_1'];
                     } else {
                         $new_rows[] = $vars['rows'][$key];
@@ -769,36 +787,39 @@ function custom_admin_preprocess_views_view_table(&$vars) {
                 $vars['theme_hook_suggestions'][] = 'custom_views_juanxian_table';
 
                 // 如果是按照类型过滤
-                if(!empty($_GET['type'])) {
-                    if($_GET['type'] != 'All') {
+                if (!empty($_GET['type'])) {
+                    if ($_GET['type'] != 'All') {
                         $vars['header'] = array(
                             'type' => '手稿类型',
                             'php' => '捐献人',
-                            'type_1' => '捐献数量'
+                            'type_1' => '捐献数量',
                         );
                     }
                 }
             }
         }
         // 增加统计一行
-        if($vars['view']->current_display == 'insert_count_shenhe') {
+        if ($vars['view']->current_display == 'insert_count_shenhe') {
             $max_key = max(array_keys($vars['rows']));
             $vars['rows'][$max_key]['name_1'] = '统计';
         }
 
-        if($vars['view']->current_display == 'shenhe_list_juanxian') {
+        if ($vars['view']->current_display == 'shenhe_list_juanxian') {
             $max_key = max(array_keys($vars['rows']));
-            if(isset($vars['rows'][$max_key]['type']))
+            if (isset($vars['rows'][$max_key]['type'])) {
                 $vars['rows'][$max_key]['type'] = '统计';
+            }
 
-            if(isset($vars['rows'][$max_key]['php']))
+            if (isset($vars['rows'][$max_key]['php'])) {
                 $vars['rows'][$max_key]['php'] = '统计';
+            }
+
         }
-        
+
     }
     // 切面页面获取审核状态
-    if($vars['view']->name == "custom_facets_pages") {
-        foreach($vars['rows'] as $key => $row) {
+    if ($vars['view']->name == "custom_facets_pages") {
+        foreach ($vars['rows'] as $key => $row) {
             $nid = $vars['result'][$key]->entity;
             $node = node_load($nid);
             $state = (!empty($node->workbench_moderation)) ? $node->workbench_moderation['current']->state : $node->workbench_moderation_state_current;
@@ -808,52 +829,53 @@ function custom_admin_preprocess_views_view_table(&$vars) {
     }
 }
 
-function custom_admin_preprocess_views_data_export_xls_header(&$vars) {
+function custom_admin_preprocess_views_data_export_xls_header(&$vars)
+{
     // 增加边框线
     $vars['header_row'] = str_replace('<th>', '<th style="border:thin solid;">', $vars['header_row']);
 
-    if($vars['view']->name == 'views_insert_count') {
-        if($vars['view']->current_display == 'shenhe_list_export') {
+    if ($vars['view']->name == 'views_insert_count') {
+        if ($vars['view']->current_display == 'shenhe_list_export') {
             $vars['theme_hook_suggestions'][] = 'custom_views_shenhe_export_table_header';
 
             $node_types = node_type_get_types();
-            $names = array_map(function($type) {
+            $names = array_map(function ($type) {
                 return $type->name;
             }, $node_types);
 
-            foreach($names as $key => $name) {
+            foreach ($names as $key => $name) {
                 $vars['header_row'] = str_replace($name, '著录', $vars['header_row']);
             }
         }
 
-        if($vars['view']->current_display == 'juanxian_list_export') {
-            if(empty($_GET['field_shl_donator_value_1']) 
+        if ($vars['view']->current_display == 'juanxian_list_export') {
+            if (empty($_GET['field_shl_donator_value_1'])
                 && empty($_GET['field_shl_donator_format'])
                 && (empty($_GET['type']) || $_GET['type'] == 'All')
-                ) {
+            ) {
                 unset($vars['header']['php']);
                 unset($vars['header']['field_shl_donator1']);
             } else {
                 // 如果是按照类型过滤
-                if(!empty($_GET['type'])) {
-                    if($_GET['type'] != 'All') {
+                if (!empty($_GET['type'])) {
+                    if ($_GET['type'] != 'All') {
                         $vars['header'] = array(
                             'type' => '手稿类型',
                             'php' => '捐献人',
-                            'type_1' => '捐献数量'
+                            'type_1' => '捐献数量',
                         );
                     }
-                    if(!empty($_GET['field_shl_donator_value_1']) || !empty($_GET['field_shl_donator1_value_1'])) {
+                    if (!empty($_GET['field_shl_donator_value_1']) || !empty($_GET['field_shl_donator1_value_1'])) {
                         $vars['header'] = array(
                             'php' => '捐献人',
                             'type' => '手稿类型',
-                            'type_1' => '捐献数量'
+                            'type_1' => '捐献数量',
                         );
                     }
                 }
             }
             $vars['header_row'] = '<thead><tr>';
-            foreach($vars['header'] as $key => $title) {
+            foreach ($vars['header'] as $key => $title) {
                 $vars['header_row'] .= "<td>$title</td>";
             }
             $vars['header_row'] .= '</tr></thead>';
@@ -862,33 +884,34 @@ function custom_admin_preprocess_views_data_export_xls_header(&$vars) {
     $v = $vars;
 }
 
-function custom_admin_preprocess_views_data_export_xls_body(&$vars) {
+function custom_admin_preprocess_views_data_export_xls_body(&$vars)
+{
     // 增加统计一行
-    if($vars['view']->name == 'views_insert_count') {
-        if($vars['view']->current_display == 'insert_count_shenhe_export') {
+    if ($vars['view']->name == 'views_insert_count') {
+        if ($vars['view']->current_display == 'insert_count_shenhe_export') {
             $max_key = max(array_keys($vars['rows']));
             $vars['themed_rows'][$max_key]['name_1'] = '统计';
         }
 
-        if($vars['view']->current_display == 'juanxian_list_export') {
+        if ($vars['view']->current_display == 'juanxian_list_export') {
             $max_key = max(array_keys($vars['themed_rows']));
-            if(empty($_GET['field_shl_donator_value_1']) 
+            if (empty($_GET['field_shl_donator_value_1'])
                 && empty($_GET['field_shl_donator_format'])
                 && (empty($_GET['type']) || $_GET['type'] == 'All')
-                ) {
+            ) {
                 $new_rows = array();
-                foreach($vars['themed_rows'] as $key => $row) {
-                    if($key == $max_key) {
+                foreach ($vars['themed_rows'] as $key => $row) {
+                    if ($key == $max_key) {
                         continue;
                     }
                     $t = array_column($new_rows, 'type');
                     $s_key = array_search($row['type'], $t);
-                    if($s_key !== FALSE) {
+                    if ($s_key !== false) {
                         $new_rows[$s_key]['type_1'] += $row['type_1'];
                     } else {
                         $new_rows[] = array(
                             'type' => $row['type'],
-                            'type_1' => $row['type_1']
+                            'type_1' => $row['type_1'],
                         );
                     }
                 }
@@ -897,43 +920,46 @@ function custom_admin_preprocess_views_data_export_xls_body(&$vars) {
                 $new_rows[] = $vars['themed_rows'][$max_key];
                 $vars['themed_rows'] = $new_rows;
             } elseif (!empty($_GET['type'])) {
-                if($_GET['type'] != 'All') {
-                    foreach($vars['themed_rows'] as $key => $row) {
-                        if($key == $max_key) {
+                if ($_GET['type'] != 'All') {
+                    foreach ($vars['themed_rows'] as $key => $row) {
+                        if ($key == $max_key) {
                             continue;
                         }
                         $uname = $row['php'];
-                        if($key == 0) {
+                        if ($key == 0) {
                             $row['php'] = array('data' => $row['type'], 'rowspan' => count($vars['themed_rows']) - 1);
                         } else {
                             unset($row['php']);
                         }
-                        
+
                         $row['type'] = $uname;
                         $vars['themed_rows'][$key] = $row;
                     }
-                    $vars['themed_rows'][$max_key]['type'] = NULL;
+                    $vars['themed_rows'][$max_key]['type'] = null;
                 }
-                
+
             }
 
-            if(isset($vars['themed_rows'][$max_key]['type']))
+            if (isset($vars['themed_rows'][$max_key]['type'])) {
                 $vars['themed_rows'][$max_key]['type'] = '统计';
+            }
 
-            if(isset($vars['themed_rows'][$max_key]['php']))
+            if (isset($vars['themed_rows'][$max_key]['php'])) {
                 $vars['themed_rows'][$max_key]['php'] = '统计';
+            }
+
         }
     }
 
     // 增加边框线
-    foreach($vars['themed_rows'] as $key => $row) {
-        foreach($row as $c => $cell) {
-            if(is_array($cell)) {
-                $cell['style'] ='border:thin solid;';
+    foreach ($vars['themed_rows'] as $key => $row) {
+        foreach ($row as $c => $cell) {
+            if (is_array($cell)) {
+                $cell['style'] = 'border:thin solid;';
             } else {
                 $cell = array(
                     'data' => $cell,
-                    'style' => 'border:thin solid;'
+                    'style' => 'border:thin solid;',
                 );
             }
 
@@ -942,51 +968,53 @@ function custom_admin_preprocess_views_data_export_xls_body(&$vars) {
     }
 }
 
-
 /**
  * Implement hook_views_pre_build
  */
-function custom_admin_views_pre_build(&$view) {
+function custom_admin_views_pre_build(&$view)
+{
     if ($view->name == 'views_insert_count') {
-        if($view->current_display == 'shenhe_list'
+        if ($view->current_display == 'shenhe_list'
             || $view->current_display == 'page_1'
             || $view->current_display == 'insert_count_shenhe'
             || $view->current_display == 'shenhe_list_juanxian'
-            ) {
+        ) {
             $view->filter['created']->value['min'] = date('m/') . '01' . date('/Y');
             $view->filter['created']->value['max'] = date('m/d/Y', strtotime('+1 day', REQUEST_TIME));
         }
     }
-  }
+}
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
-function custom_admin_form_node_form_alter(&$form, $form_state) {
+function custom_admin_form_node_form_alter(&$form, $form_state)
+{
     global $user;
     if (isset($form['#node']->workbench_moderation['current']->state)) {
         $moderation_state = $form['#node']->workbench_moderation['current']->state;
         $form['options']['workbench_moderation_state_new']['#default_value'] = $moderation_state;
-        
-        if($user->uid != $form['#node']->uid && $moderation_state == 'drafty') {
+
+        if ($user->uid != $form['#node']->uid && $moderation_state == 'drafty') {
             $form['options']['workbench_moderation_state_new']['#attributes']['style'] = 'display: none;';
         }
     }
-    
+
     drupal_add_library('system', 'ui.autocomplete');
- 
+
 }
 
 /**
  * Implement hook_search_api_solr_documents_alter
  */
-function custom_admin_search_api_solr_documents_alter(array &$documents, SearchApiIndex $index, array $items) {
-    foreach($documents as $document) {
+function custom_admin_search_api_solr_documents_alter(array &$documents, SearchApiIndex $index, array $items)
+{
+    foreach ($documents as $document) {
         $title = $document->getField('tm_title');
         $value = $title['value'];
-        if(count($value) > 1) {
+        if (count($value) > 1) {
             $value = array(
-                join(' ', $value)
+                join(' ', $value),
             );
         }
 
@@ -999,12 +1027,13 @@ function custom_admin_search_api_solr_documents_alter(array &$documents, SearchA
 /**
  * Implement hook_search_api_results_alter
  */
-function custom_admin_search_api_results_alter(array &$results, SearchApiQueryInterface $query) {
+function custom_admin_search_api_results_alter(array &$results, SearchApiQueryInterface $query)
+{
     $search_id = $query->getOption('search id');
-    if ($search_id == 'search_api_views:custom_facets_pages:page_2' 
+    if ($search_id == 'search_api_views:custom_facets_pages:page_2'
         || $search_id == 'search_api_views:custom_facets_pages:page_1'
         || $search_id == 'search_api_views:custom_facets_pages:page_4') {
-        foreach($results['search_api_facets']['field_dc_date2'] as $key => $item) {
+        foreach ($results['search_api_facets']['field_dc_date2'] as $key => $item) {
             preg_match('/\d+/', $item['filter'], $matchs);
             $s = $matchs[0];
             $results['search_api_facets']['field_dc_date2'][$key]['filter'] = '0' . date('Y-m-d', $s) . '0';
@@ -1015,9 +1044,10 @@ function custom_admin_search_api_results_alter(array &$results, SearchApiQueryIn
  * Implement hook_node_validate
  * 处理暂存按钮
  */
-function custom_admin_node_validate($node, $form, &$form_state) {
-    if($form_state['values']['workbench_moderation_state_new'] == 'drafty') {
-        if(!empty($form_state['values']['title'])) {
+function custom_admin_node_validate($node, $form, &$form_state)
+{
+    if ($form_state['values']['workbench_moderation_state_new'] == 'drafty') {
+        if (!empty($form_state['values']['title'])) {
             form_clear_error();
         }
     }
@@ -1026,9 +1056,10 @@ function custom_admin_node_validate($node, $form, &$form_state) {
 /**
  * 验证值
  */
-function custom_admin_vbo_form_validate($form, &$form_state) {
+function custom_admin_vbo_form_validate($form, &$form_state)
+{
     $mi_ji = $form_state['values']['mi_ji'];
-    if($mi_ji == 0) {
+    if ($mi_ji == 0) {
         views_bulk_operations_form_validate($form, $form_state);
         return;
     }
@@ -1037,20 +1068,24 @@ function custom_admin_vbo_form_validate($form, &$form_state) {
 /**
  * 批量设置密级
  */
-function custom_admin_vbo_form_submit($form, &$form_state) {
+function custom_admin_vbo_form_submit($form, &$form_state)
+{
     $mi_ji = $form_state['values']['mi_ji'];
-    if($mi_ji == 0) {
+    if ($mi_ji == 0) {
         views_bulk_operations_form_submit($form, $form_state);
     }
-    
+
     $nids = array();
-    foreach($form_state['values']['views_bulk_operations'] as $id) {
-        if($id > 0) $nids[] = $id;
+    foreach ($form_state['values']['views_bulk_operations'] as $id) {
+        if ($id > 0) {
+            $nids[] = $id;
+        }
+
     }
 
     $term = taxonomy_term_load($mi_ji);
     $nodes = node_load_multiple($nids);
-    foreach($nodes as $node) {
+    foreach ($nodes as $node) {
         $node_wrapper = entity_metadata_wrapper('node', $node);
         $node_wrapper->field_mi_ji->set($term);
         $node_wrapper->save();
@@ -1059,11 +1094,9 @@ function custom_admin_vbo_form_submit($form, &$form_state) {
     drupal_set_message('status', '批量设置密级成功！');
 }
 
-
-
-function custom_admin_node_presave($node) {
-	if(isset($node->changing)) {
-	  $node->changed=$node->changing;	
-	}
+function custom_admin_node_presave($node)
+{
+    if (isset($node->changing)) {
+        $node->changed = $node->changing;
+    }
 }
-
