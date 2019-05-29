@@ -203,7 +203,7 @@
                        </ul>
                     </li>
                     <li>
-                        <a href="<?php echo url('search/creator'); ?>" class="dropdown-toggle">
+                        <a href="<?php echo url('search/creator-list'); ?>" class="dropdown-toggle">
                             <i class="icon-tasks"></i><span class="menu-text"> 数据展示 </span>
                         </a>
                     </li>
