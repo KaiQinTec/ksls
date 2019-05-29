@@ -262,7 +262,7 @@
                         <ul class="submenu">
                             <li class="home">
                                 <a href="/insert/count" name="Cover_management.html" title="著录统计" class="iframeurl">
-                                    <i class="icon-double-angle-right"></i>著录统计
+                                    <i class="icon-double-angle-right"></i>著录统计qqq
                                 </a>
                             </li>
                             <li class="home">
